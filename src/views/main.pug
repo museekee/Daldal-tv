@@ -1,0 +1,35 @@
+include header
+html
+    head
+        link(rel="stylesheet" type="text/css" href="./../assets/styles/main.css")
+        script(src="./../assets/scripts/main.js" defer)
+    body
+        main#stars
+            daldal-star(src="XpVlEQHJdyo")
+        template#daldalStar
+            style.
+                #container {
+                    display: grid;
+                    grid-template-rows: 175px 40px;
+                    grid-row-gap: 10px;
+                    cursor: pointer;
+                }
+                img#thumbnail {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+                span#title {
+                    width: 175px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    color: #ffffff;
+                    text-align: center;
+                }
+            a#container
+                img#thumbnail(src="/")
+                span#title 제목을 입력해주세요.

@@ -1,0 +1,18 @@
+header {
+    display: flex;
+    margin: 0;
+    height: 36px;
+    background: #0b132f;
+    padding: 2px 10px;
+    align-items: center;
+    justify-content: flex-start;
+}
+    header > nav {
+        margin-left: auto;
+    }
+        header > nav > a {
+            font-size: 12px;
+            color: #9aaffb;
+            margin-right: auto;
+            cursor: pointer;
+        }
