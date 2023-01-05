@@ -10,7 +10,7 @@ html
             style.
                 #container {
                     display: grid;
-                    grid-template-rows: 175px 40px;
+                    grid-template-rows: auto 40px;
                     grid-row-gap: 10px;
                     cursor: pointer;
                 }
@@ -19,9 +19,10 @@ html
                     height: 100%;
                     object-fit: cover;
                     border-radius: 50%;
+                    aspect-ratio: 1/1;
                 }
                 span#title {
-                    width: 175px;
+                    width: auto;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     display: -webkit-box;

@@ -1,6 +1,5 @@
 import maria, { FieldPacket } from "mysql2/promise"
 import config from "./../lib/config.json"
-import { Google } from "./types/app"
 import DB from "./types/db"
 
 export const pool = maria.createPool({
@@ -16,7 +15,12 @@ export async function getUserById(id: string) {
     conn.release()
     return rows
 }
-export async function addUserByGoogleProfile(profile: Google) {
+export async function addUserByProfile(profile: {
+    id: string
+    email: string
+    displayName: string
+    picture: string
+}) {
     const conn = await pool.getConnection()
     await conn.query(`
         INSERT INTO users
@@ -28,7 +32,7 @@ export async function addUserByGoogleProfile(profile: Google) {
         )
         VALUES
         (
-            ${conn.escape(`google-${profile.id}`)},
+            ${conn.escape(profile.id)},
             ${conn.escape(profile.email)},
             ${conn.escape(profile.displayName)},
             ${conn.escape(profile.picture)}
