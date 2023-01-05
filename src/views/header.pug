@@ -2,7 +2,23 @@ html
     head
         link(rel="stylesheet" type="text/css " href="./../assets/styles/header.css")
         link(rel="stylesheet" type="text/css " href="./../assets/styles/_common.css")
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css")
+        script(src="./../assets/scripts/header.js" defer)
     header
-        img(src="./../assets/images/logo.svg")
+        img#__LOGO__(src="./../assets/images/logo.svg")
         nav
-            a#login 로그인
+            li.submenu.tiny
+                a#nav-daldalso(href="https://daldal.so")
+                    i.fa-fw.fas.fa-moon
+            li.submenu.tiny
+                a(href="/upload")
+                    i.fa-fw.fas.fa-plus
+            - if (!nick)
+                li.submenu
+                    a(href="/login/google") 로그인
+            - else
+                li.submenu
+                    a=nick
+                    div.dropdown
+                        a 내 채널
+                        a(href="/logout") 로그아웃

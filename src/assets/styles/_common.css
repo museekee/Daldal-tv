@@ -9,3 +9,10 @@ daldal-star {
     width: 175px;
     display: block;
 }
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+button {
+    appearance: none;
+}

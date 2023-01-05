@@ -9,5 +9,4 @@ class DaldalStar extends HTMLElement {
     }
 }
 
-console.log(document.getElementById("daldalStar"))
 customElements.define("daldal-star", DaldalStar)
