@@ -5,8 +5,43 @@ html
         script(src="./../assets/scripts/upload.js" defer)
     body
         main
-            button#uploadBox
-                div
+            #uploadBox.notUpload
+                button#uploadBtn
                     input#videoFile(style={'display': "none"} type="file")
                     i.fa-fw.fas.fa-upload
                     span#uploadBox-description 클릭하거나 드래그하여 영상 업로드
+                #uploadData
+                    section#section-input-title
+                        label.head 
+                            i.fas.fa-quote-left
+                            |  제목
+                        input.body(type="text")
+                    section#section-input-description
+                        label.head 
+                            i.fas.fa-file-alt
+                            |  설명
+                        textarea.body
+                    section#section-select-visibility
+                        label.head 
+                            i.fas.fa-eye
+                            |  공개
+                        div.body
+                            div
+                                input(type="radio" name="visibility" value="public")
+                                label 공개
+                            div
+                                input(type="radio" name="visibility" value="link")
+                                label 일부 공개
+                            div
+                                input(type="radio" name="visibility" value="private")
+                                label 비공개
+                    section#section-file-thumbnail
+                        label.head 
+                            i.fas.fa-image
+                            |  미리보기 이미지
+                        img.body
+                    section#section-pre-video
+                        label.head 
+                            i.fas.fa-video
+                            |  영상 미리보기
+                        iframe.body

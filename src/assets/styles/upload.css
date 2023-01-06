@@ -4,23 +4,31 @@ main {
     justify-content: center;
     height: calc(100% - 36px);
 }
+.notUpload {
+    box-shadow: 0 0 .2rem #ffff00,
+                0 0 .2rem #ffff00,
+                0 0 2rem #888800,
+                0 0 0.8rem #888800,
+                0 0 2.8rem #888800,
+                inset 0 0 1.3rem #ffff00!important;
+}
 #uploadBox {
     display: flex;
-    width: 80%;
-    height: 70%;
+    min-width: 1000px;
+    width: 1500px;
+    height: calc(100% - 100px);
+    margin: 0px 50px;
     border: 0.2rem solid #fff;
     border-radius: 2rem;
     padding: 0.4em;
-    box-shadow: 0 0 .2rem #ffff00,
-              0 0 .2rem #ffff00,
-              0 0 2rem #888800,
-              0 0 0.8rem #888800,
-              0 0 2.8rem #888800,
-              inset 0 0 1.3rem #ffff00;
+    box-shadow: 0 0 .2rem #00ff00,
+                0 0 .2rem #00ff00,
+                0 0 2rem #88ff88,
+                0 0 0.8rem #88ff88,
+                0 0 2.8rem #88ff88,
+                inset 0 0 1.3rem #00ff00;
     justify-content: center;
     align-items: center;
-    font-size: 75px;
-    color: #eeff00;
     flex-direction: column;
     transition: all 500ms;
 }
@@ -30,13 +38,63 @@ main {
         font-weight: bold;
         margin: 15px;
     }
-#uploadBox:hover {
+    #uploadBox > * {
+        width: 100%;
+        height: 100%;
+    }
+    #uploadBtn {
+        border: none;
+        color: #eeff00;
+        font-size: 75px;
+        transition: all 500ms;
+    }
+.notUpload:hover {
     transform: scale(1.01);
-    color: #ffff66;
     box-shadow: 0 0 .2rem #ffff88,
-          0 0 .2rem #ffff88,
-          0 0 2rem #ffff00,
-          0 0 0.8rem #ffff00,
-          0 0 2.8rem #ffff00,
-          inset 0 0 1.3rem #ffff88;
+                0 0 .2rem #ffff88,
+                0 0 2rem #ffff00,
+                0 0 0.8rem #ffff00,
+                0 0 2.8rem #ffff00,
+                inset 0 0 1.3rem #ffff88;
+}
+#uploadBox:hover #uploadBtn {
+    color: #ffff66;
+}
+
+
+#uploadData {
+    display: grid;
+    grid-template-columns: 30fr 10fr 70fr;
+}
+    #section-input-title {
+        grid-column: 1;
+    }
+    #section-input-description {
+        grid-column: 1;
+    }
+    #section-select-visibility {
+        grid-column: 2;
+    }
+    #section-file-thumbnail {
+        grid-column: 2;
+    }
+    #section-pre-video {
+        grid-column: 3;
+    }
+.head {
+    display: block;
+    background: #00000033;
+    color: #9aaffb;
+    padding: 8px;
+    font-size: 9pt;
+    text-align: center;
+    letter-spacing: .1em;
+}
+.body {
+    background: #00000022;
+    outline: none;
+    border: 1px solid #ffffff;
+    padding: 5px;
+    color: #ffffff;
+    font-size: 18px;
 }
