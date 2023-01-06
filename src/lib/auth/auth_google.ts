@@ -1,16 +1,15 @@
-import config from "./../auth.json"
-import Auth from "./../types/auth"
+import auth from "./../auth.json"
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 
-module.exports.config = {
+export const config = {
     strategy: GoogleStrategy,
-    color: '#0F132F',
-    fontColor: '#FFFFFF',
-    vendor: 'daldalso'
+    color: '#ffffff',
+    fontColor: '#222222',
+    vendor: 'google',
+    description: "구글 아이디로 로그인"
 }
-module.exports.strategyConfig = {
-    clientID: config.google.clientID, // 보안을 위해서입니다.
-    clientSecret: config.google.clientSecret, // 이 방법을 사용하는 것을
-    callbackURL: config.google.callbackURL, // 적극 권장합니다.
-    passReqToCallback: true
+export const strategyConfig = {
+    clientID: auth.google.clientID,
+    clientSecret: auth.google.clientSecret,
+    callbackURL: auth.google.callbackURL
 }

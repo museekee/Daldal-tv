@@ -1,0 +1,11 @@
+include header
+html
+    head
+        link(rel="stylesheet" type="text/css" href="./../assets/styles/login.css")
+    body
+        #loginBtns
+            - for (const item of auth)
+                a.loginBtn(href=`/login/${item.vendor}` style={
+                    'color': item.fontColor,
+                    'background': item.color
+                })=item.description

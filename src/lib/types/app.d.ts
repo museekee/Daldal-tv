@@ -2,19 +2,19 @@ import "express"
 declare global {
     namespace Express {
         interface User {
-          username: string;
-          id?: number;
+            nick: string;
+            id: string;
         }
     }
 }
-import type { SessionData } from 'express-session';
-declare module "express-session" {
-    interface SessionData {
-        passport: {
-            user: string
-        }
-    }
-}
+// import type { SessionData } from 'express-session';
+// declare module "express-session" {
+//     interface SessionData {
+//         passport: {
+//             user: string
+//         }
+//     }
+// }
 
 // export interface Google {
 //     provider: string

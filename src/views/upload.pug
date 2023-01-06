@@ -1,0 +1,12 @@
+include header
+html
+    head
+        link(rel="stylesheet" type="text/css" href="./../assets/styles/upload.css")
+        script(src="./../assets/scripts/upload.js" defer)
+    body
+        main
+            button#uploadBox
+                div
+                    input#videoFile(style={'display': "none"} type="file")
+                    i.fa-fw.fas.fa-upload
+                    span#uploadBox-description 클릭하거나 드래그하여 영상 업로드

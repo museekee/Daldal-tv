@@ -1,13 +1,16 @@
+@font-face {
+    font-family: "MainFont";
+    src: url("./../fonts/NanumGothic-Regular.ttf") format("truetype");
+}
 * {
     box-sizing: border-box;
 }
 body {
+    font-family: MainFont;
     margin: 0;
+    width: 100vw;
+    height: 100vh;
     background: linear-gradient(135.5deg, #0e183c 0%, #091027 100%);
-}
-daldal-star {
-    width: 150px;
-    display: block;
 }
 a {
     cursor: pointer;
@@ -15,4 +18,6 @@ a {
 }
 button {
     appearance: none;
+    background: none;
+    cursor: pointer;
 }

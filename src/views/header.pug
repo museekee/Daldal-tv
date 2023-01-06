@@ -5,17 +5,18 @@ html
         link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css")
         script(src="./../assets/scripts/header.js" defer)
     header
-        img#__LOGO__(src="./../assets/images/logo.svg")
+        a(href="/")
+            img#__LOGO__(src="./../assets/images/logo.svg")
         nav
             li.submenu.tiny
                 a#nav-daldalso(href="https://daldal.so")
                     i.fa-fw.fas.fa-moon
             li.submenu.tiny
                 a(href="/upload")
-                    i.fa-fw.fas.fa-plus
+                    i.fa-fw.fas.fa-upload
             - if (!nick)
                 li.submenu
-                    a(href="/login/google") 로그인
+                    a(href="/login") 로그인
             - else
                 li.submenu
                     a=nick

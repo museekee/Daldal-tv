@@ -1,9 +1,9 @@
-import express, { application } from "express";
+import express from "express";
 
 const router = express.Router()
 
 router.use(async (req, res, next) => {
-    if (!req.session.passport) return res.sendStatus(403)
+    if (!req.user) return res.redirect("login")
     return next()
 })
 

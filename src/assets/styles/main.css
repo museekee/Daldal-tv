@@ -1,0 +1,8 @@
+daldal-star {
+    width: 150px;
+    display: block;
+    transition: transform 500ms;
+}
+daldal-star:hover {
+    transform: scale(1.1);
+}

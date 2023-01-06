@@ -10,3 +10,10 @@ class DaldalStar extends HTMLElement {
 }
 
 customElements.define("daldal-star", DaldalStar)
+const $data = {
+    loadedVideo: 10
+};
+
+(async () => {
+    const res = await fetch("/videos")
+})()
