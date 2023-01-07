@@ -1,0 +1,11 @@
+include header
+head
+    link(rel="stylesheet" type="text/css" href="./../assets/styles/watch.css")
+body
+    main
+        video#video(controls)
+            source(src=stream type="video/mp4")
+            | video태그를 지원하지 않는 브라우저입니다.
+        #menu
+            #menu_buttons
+                button 
