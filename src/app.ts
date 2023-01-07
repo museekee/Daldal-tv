@@ -22,7 +22,7 @@ AuthInit(app)
 app.use(async (req, res, next) => {
     if (req.user)
         res.locals.nick = req.user.nick
-    if (req.originalUrl.includes("assets") || req.originalUrl === "/favicon.ico") return next()
+    if (req.originalUrl.includes("assets") || req.originalUrl.includes("/watch/stream") || req.originalUrl === "/favicon.ico") return next()
     NyLog.Log("connected page", {
         location: req.originalUrl,
         ip: req.ip
@@ -34,6 +34,7 @@ app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, "views"))
 app.use("/assets", express.static(path.join(__dirname, "assets")))
 app.use("/upload", require("./routers/upload"))
+app.use("/watch", require("./routers/watch"))
 
 app.get('/', async (req, res) => {
     return res.render("main")

@@ -9,6 +9,17 @@ declare namespace DB {
         ABOUT_ME: string;
         VIDEOS: string;
     }
+    interface Videos extends RowDataPacket {
+        ID: string
+        TITLE: string
+        DESCRIPTION: string
+        UPLOADED_AT: any
+        PROVIDER: string
+        VIEWS: number
+        LIKES: number
+        DISLIKES: number
+        VISIBILITY: "public" | "link" | "private"
+    }
 }
 
 export = DB

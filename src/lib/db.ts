@@ -69,3 +69,8 @@ export async function addVideo(data: {
         )
     `)
 }
+export async function getVideosById(vid: string) {
+    const conn = await pool.getConnection()
+    const [rows]: [DB.Videos[], FieldPacket[]] = await conn.query(`SELECT * FROM videos WHERE ID = ${conn.escape(vid)}`)
+    return rows
+}
