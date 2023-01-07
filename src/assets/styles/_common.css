@@ -4,9 +4,9 @@
 }
 * {
     box-sizing: border-box;
+    font-family: MainFont;
 }
 body {
-    font-family: MainFont;
     margin: 0;
     width: 100vw;
     height: 100vh;
@@ -20,4 +20,7 @@ button {
     appearance: none;
     background: none;
     cursor: pointer;
+}
+.invisibility {
+    display: none !important;
 }

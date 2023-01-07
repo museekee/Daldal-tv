@@ -7,27 +7,27 @@ html
         main
             #uploadBox.notUpload
                 button#uploadBtn
-                    input#videoFile(style={'display': "none"} type="file")
+                    input#videoFile.invisibility(type="file" accept="video/mp4")
                     i.fa-fw.fas.fa-upload
                     span#uploadBox-description 클릭하거나 드래그하여 영상 업로드
-                #uploadData
+                #uploadData.invisibility
                     section#section-input-title
                         label.head 
                             i.fas.fa-quote-left
                             |  제목
-                        input.body(type="text")
+                        input#titleInput.body(type="text")
                     section#section-input-description
                         label.head 
                             i.fas.fa-file-alt
                             |  설명
-                        textarea.body
+                        textarea#descriptionInput.body
                     section#section-select-visibility
                         label.head 
                             i.fas.fa-eye
                             |  공개
-                        div.body
+                        div#selectVisibility.body
                             div
-                                input(type="radio" name="visibility" value="public")
+                                input(type="radio" name="visibility" value="public" checked)
                                 label 공개
                             div
                                 input(type="radio" name="visibility" value="link")
@@ -39,9 +39,12 @@ html
                         label.head 
                             i.fas.fa-image
                             |  미리보기 이미지
-                        img.body
+                        input#imageFile.invisibility(type="file" accept="image/png")
+                        img#thumbnailInput.body
                     section#section-pre-video
                         label.head 
                             i.fas.fa-video
                             |  영상 미리보기
-                        iframe.body
+                        iframe#preVideo.body
+                    button#upload
+                        i.fa-fw.fas.fa-upload

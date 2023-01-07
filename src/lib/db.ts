@@ -39,3 +39,33 @@ export async function addUserByProfile(profile: {
         )
     `)
 }
+
+export async function addVideo(data: {
+    id: string
+    title: string
+    description: string
+    visibility: string
+    provider: string
+}) {
+    const conn = await pool.getConnection()    
+    await conn.query(`
+        INSERT INTO videos
+        (
+            ID,
+            TITLE,
+            DESCRIPTION,
+            UPLOADED_AT,
+            PROVIDER,
+            VISIBILITY
+        )
+        VALUES
+        (
+            ${conn.escape(data.id)},
+            ${conn.escape(data.title)},
+            ${conn.escape(data.description !== "undefined" ? data.description : "")},
+            NOW(),
+            ${conn.escape(data.provider)},
+            ${conn.escape(data.visibility)}
+        )
+    `)
+}

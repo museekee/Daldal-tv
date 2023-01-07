@@ -9,7 +9,6 @@ export default async function init(app: Express) {
     app.use(passport.initialize());
     app.use(passport.session());
     passport.serializeUser(async (profile: any, done) => {
-        console.log(profile)
         if ((await DB.getUserById(`${profile.provider}-${profile.id}`)).length === 0) await DB.addUserByProfile({
             id: `${profile.provider}-${profile.id}`,
             email: profile.email,
@@ -23,7 +22,6 @@ export default async function init(app: Express) {
     })
     
     passport.deserializeUser(async (id: Express.User, done) => {
-        console.log(id)
         done(null, id);
     })
     const authConfigs: any[] = []
@@ -38,7 +36,6 @@ export default async function init(app: Express) {
                 callbackURL: auth.strategyConfig.callbackURL
             },
             async (accessToken: string, refreshToken: string, profile: any, done: (arg0: null, arg1: any) => any) => {
-                console.log(profile)
                 return done(null, profile);
             }
             ))
