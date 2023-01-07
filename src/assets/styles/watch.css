@@ -18,4 +18,15 @@ main {
 }
     #menu_buttons {
         display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
     }
+        .menu_select {
+            width: 100%;
+            font-size: 20px;
+            font-weight: bolder;
+            color: #ffffff;
+            border: none;
+            background: #00000055;
+            padding: 15px;
+        }
