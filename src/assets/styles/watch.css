@@ -1,15 +1,16 @@
 main {
     display: grid;
-    padding: 10px;
     grid-template-columns: auto 400px;
     height: calc(100% - 36px);
     align-items: center;
+    padding: 10px;
 }
 #video {
     grid-row: 1;
     grid-column: 1;
     aspect-ratio: 16/9;
     width: 100%;
+    padding-right: 10px;
 }
 #menu {
     grid-row: 1 / 2;
@@ -20,13 +21,132 @@ main {
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
+        padding: 0 !important;
     }
         .menu_select {
+            color: #9aaffb;
+            background: linear-gradient(0, rgba(38, 65, 163, 0.3) 0%, rgba(38, 65, 163, 0) 100%) 0 0/100% 100% no-repeat;
             width: 100%;
             font-size: 20px;
             font-weight: bolder;
             color: #ffffff;
             border: none;
-            background: #00000055;
-            padding: 15px;
+            border-left: 4px solid #21398e;
+            padding: 13px;
         }
+    #menu > * {
+        padding: 10px;
+    }
+        * {
+            color: #ffffff;
+        }
+        #video_information > #title {
+            font-size: 25px;
+            font-weight: normal;
+            margin-bottom: 10px;
+        }
+        #video_information > #description {
+            font-size: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ffffff;
+            margin-bottom: 10px;
+        }
+        #views {
+            margin-right: 10px;
+        }
+        #channel, #commentInputDiv {
+            display: grid;
+            grid-template-columns: 50px 1fr 60px;
+            grid-template-rows: 30px 20px;
+            column-gap: 10px;
+            margin-top: 10px;
+            background: #ffffff;
+            border-radius: 50px;
+            margin-bottom: 10px;
+        }
+            .profilepic {
+                width: 50px;
+                border-radius: 50%;
+                grid-column: 1;
+                grid-row: 1 /3;
+            }
+            #channel_name {
+                display: flex;
+                grid-column: 2;
+                grid-row: 1;
+                color: #000000;
+                font-size: 21px;
+                align-items: center;
+            }
+            #channel_subs {
+                display: flex;
+                grid-column: 2;
+                grid-row: 2;
+                color: #555555;
+                font-size: 15px;
+                align-items: center;
+            }
+            #subscribe, #send {
+                grid-column: 3;
+                grid-row: 1 / 3;
+                color: #ffffff;
+                background-color: #ff0000;
+                border: none;
+                border-radius: 0px 23px 23px 0px;
+                font-size: 15px;
+                font-weight: bold;
+            }
+        #video_function {
+            height: 40px;
+        }
+            #video_function > button {
+                display: inline-flex;
+                border: none;
+                background: #ffffff11;
+                width: auto;
+                padding: 10px;
+                height: 100%;
+                margin-right: 10px;
+                border-radius: 50px;
+                font-size: 18px;
+                align-items: center;
+            }
+            #video_function > .clicked > i{
+                color: #ffff00;
+            }
+                #video_function > button > span {
+                    margin-left: 10px;
+                }
+        #commentInputDiv {
+            grid-template-columns: 50px 1fr 50px;
+            grid-template-rows: 1fr;
+            column-gap: 0px;
+        }
+            #send {
+                background: #ffffff;
+            }
+                #send > i {
+                    text-align: center;
+                    color: #000000;
+                }
+            #commentInput {
+                border: none;
+                outline: none;
+                color: #000000;
+                padding: 10px;
+                font-size: 17px;
+            }
+@media (max-width: 1100px) {
+    main {
+        display: block;
+        align-items: center;
+        padding: 0px;
+    }
+    #menu {
+        height: auto;
+        padding: 0;
+    }
+    #video {
+        padding: 0;
+    }
+}

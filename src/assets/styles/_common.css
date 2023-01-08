@@ -1,6 +1,6 @@
 @font-face {
     font-family: "MainFont";
-    src: url("./../fonts/NanumGothic-Regular.ttf") format("truetype");
+    src: url("./../fonts/NanumBarunGothic.ttf") format("truetype");
 }
 * {
     box-sizing: border-box;
@@ -10,7 +10,7 @@ body {
     margin: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135.5deg, #0e183c 0%, #091027 100%);
+    background: url("https://daldal.so/media/images/background-star-back.png"), url("https://daldal.so/media/images/background-star-front.png"), linear-gradient(135.5deg, #0e183c 0%, #091027 100%);
 }
 a {
     cursor: pointer;

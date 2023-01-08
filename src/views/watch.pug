@@ -3,6 +3,25 @@ head
     link(rel="stylesheet" type="text/css" href="./../assets/styles/watch.css")
     script(src="./../assets/scripts/watch.js" defer)
 body
+    -
+        function korNumFormatter(num, digits) {
+            const lookup = [
+              { value: 1, symbol: "" },
+              { value: 1e3, symbol: "천" },
+              { value: 1e4, symbol: "만" },
+              { value: 1e8, symbol: "억" },
+              { value: 1e12, symbol: "조" },
+              { value: 1e15, symbol: "경" },
+              { value: 1e20, symbol: "자" }
+            ];
+            const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+            var item = lookup.slice().reverse().find(function(item) {
+              return num >= item.value;
+            });
+            return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
+        }
+
+nFormatter(87654, 2)
     main
         video#video(controls)
             source(src=stream type="video/mp4")
@@ -13,5 +32,30 @@ body
                 button.menu_select(data-do="comment") 댓글
                 button.menu_select(data-do="othervid") 다른 동영상
             #video_information
+                #title=video.title
+                #description=video.description
+                div
+                    span#views=`조회수 ${video.views}회`
+                    span#uploaded_at=video.uploaded_at
+                #channel
+                    img.profilepic(src=provider.picture)
+                    span#channel_name=provider.name
+                    span#channel_subs=`구독자 ${korNumFormatter(provider.subs, 1)}명`
+                    button#subscribe 구독
+                #video_function
+                    button#like
+                        i.fas.fa-thumbs-up
+                        span=korNumFormatter(video.likes, 2)
+                    button#dislike
+                        i.fas.fa-thumbs-down
+                        span=korNumFormatter(video.dislikes, 2)
+                    button#share
+                        i.fas.fa-share
+                        span 공유
             #comments.invisibility
+                #commentInputDiv
+                    img.profilepic(src=provider.picture)
+                    input#commentInput(type="text")
+                    button#send
+                        i.fa-solid.fa-paper-plane
             #otherVideos.invisibility

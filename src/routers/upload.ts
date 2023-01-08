@@ -53,6 +53,13 @@ router.post("/", upload.fields([{name: "video", maxCount: 1}, {name: "thumbnail"
         visibility: visibility,
         provider: req.user!.id
     })
+    console.log("uploaded video", {
+        id: vid,
+        title: title,
+        description: description,
+        visibility: visibility,
+        provider: req.user!.id
+    })
     return res.send({ location: `/watch/${vid}` })
     function FuckYouGoBack(reason: string) {
         res.status(403).send({ reason: reason })

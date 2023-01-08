@@ -3,12 +3,31 @@ import * as DB from "./../lib/db"
 import path from "path"
 import fs from "fs"
 import * as NyLog from "./../lib/NyLog"
+import DBType from "../lib/types/db"
 
 const router = express.Router()
 
-router.get("/:vid", (req, res) => {
+router.get("/:vid", async (req, res) => {
+    const videos: DBType.Videos[] = await DB.getVideosById(req.params.vid)
+    if (videos.length === 0) return res.status(404).send("없는 동영상입니다.")
+    const video = videos[0]
+    const provider = (await DB.getUserById(video.PROVIDER))[0]
+    //!!! 비공개 동영상 처리 필요 !!!//
     return res.render("watch", {
-        stream: `/watch/stream/${req.params.vid}`
+        stream: `/watch/stream/${req.params.vid}`,
+        video: {
+            title: video.TITLE,
+            description: video.DESCRIPTION.replace("\n", "<br/>"),
+            uploaded_at: new Intl.DateTimeFormat("ko", { dateStyle: 'medium' }).format(video.UPLOADED_AT),
+            views: video.VIEWS,
+            likes: video.LIKES,
+            dislikes: video.DISLIKES
+        },
+        provider: {
+            name: provider.NICK,
+            picture: provider.PROFILE_PIC,
+            subs: provider.SUBSCRIBERS
+        }
     })
 })
 
