@@ -11,7 +11,7 @@ export const pool = maria.createPool({
 
 export async function getUserById(id: string) {
     const conn = await pool.getConnection()
-    const [rows]: [DB.User[], FieldPacket[]] = await conn.query(`SELECT * FROM users WHERE ID = ${conn.escape(id)}`)
+    const [rows]: [DB.User[], FieldPacket[]] = await conn.query(`SELECT * FROM users WHERE ID = ${conn.escape(id)};`)
     conn.release()
     return rows
 }
@@ -36,7 +36,7 @@ export async function addUserByProfile(profile: {
             ${conn.escape(profile.email)},
             ${conn.escape(profile.displayName)},
             ${conn.escape(profile.picture)}
-        )
+        );
     `)
 }
 
@@ -66,13 +66,22 @@ export async function addVideo(data: {
             NOW(),
             ${conn.escape(data.provider)},
             ${conn.escape(data.visibility)}
-        )
+        );
     `)
     conn.release()
 }
-export async function getVideosById(vid: string) {
+export async function getVideosById(vid: string, option?: {start: number, end: number, visibility: string}) {
     const conn = await pool.getConnection()
-    const [rows]: [DB.Videos[], FieldPacket[]] = await conn.query(`SELECT * FROM videos WHERE ID = ${conn.escape(vid)}`)
+    let WHERE = "WHERE " 
+    WHERE += vid === "*" ? "" : `ID = ${conn.escape(vid)} `
+    WHERE += !option ? "" : `VISIBILITY = ${conn.escape(option.visibility)} `
+    if (WHERE === "WHERE ") WHERE = ""
+    if (option) {
+        const [rows]: [DB.Videos[], FieldPacket[]] = await conn.query(`SELECT * FROM videos ${WHERE} LIMIT ${option.start}, ${option.end};`)
+        conn.release()
+        return rows   
+    }
+    const [rows]: [DB.Videos[], FieldPacket[]] = await conn.query(`SELECT * FROM videos ${WHERE};`)
     conn.release()
     return rows
 }

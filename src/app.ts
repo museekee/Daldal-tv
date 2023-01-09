@@ -6,12 +6,17 @@ import path from "path"
 import session from "express-session"
 const MySQLStore = require("express-mysql-session")(session)
 import AuthInit from "./routers/auth"
+import rateLimit from "express-rate-limit"
 import {} from "./lib/types/app"
 
 const app = express()
 
 const sessionStore = new MySQLStore({}, DB.pool)
 
+// app.use(rateLimit({ 
+//     windowMs: 1*60*1000, 
+//     max: 100, 
+// }))
 app.use(session({
     secret: config.SESSION_SECRET,
     store: sessionStore,
@@ -35,6 +40,7 @@ app.set('views', path.join(__dirname, "views"))
 app.use("/assets", express.static(path.join(__dirname, "assets")))
 app.use("/upload", require("./routers/upload"))
 app.use("/watch", require("./routers/watch"))
+app.use("/videos", require("./routers/videos"))
 
 app.get('/', async (req, res) => {
     return res.render("main")

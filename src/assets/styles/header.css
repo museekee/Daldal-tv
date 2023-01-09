@@ -37,10 +37,10 @@ header {
             height: 100%;
             align-items: center;
         }
-        header > nav a i {
+        header > nav * {
             color: #9aaffb;
         }
-        #nav-daldalso  > i {
+        #nav-daldalso > i {
             color: gold;
         }
         .dropdown {

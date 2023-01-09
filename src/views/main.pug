@@ -5,7 +5,6 @@ html
         script(src="./../assets/scripts/main.js" defer)
     body
         main#stars
-            daldal-star(src="XpVlEQHJdyo")
         template#daldalStar
             style.
                 #container {
@@ -15,8 +14,9 @@ html
                     cursor: pointer;
                 }
                 img#thumbnail {
-                    width: 100%;
-                    height: 100%;
+                    padding: 5%;
+                    width: 90%;
+                    height: 90%;
                     object-fit: cover;
                     border-radius: 50%;
                     aspect-ratio: 1/1;
@@ -30,6 +30,30 @@ html
                     -webkit-box-orient: vertical;
                     color: #ffffff;
                     text-align: center;
+                }
+                .bronze {
+                    background: linear-gradient(to bottom right, #8b411e, #4A1003);
+                }
+                .silver {
+                    background: linear-gradient(to bottom right, #c8c8c8, #727272);
+                }
+                .gold {
+                    background: linear-gradient(to bottom right, #e6e339, #8D8208);
+                }
+                .platinum {
+                    background: linear-gradient(to bottom right, #18B57B, #00FF7B);
+                }
+                .diamond {
+                    background: linear-gradient(to bottom right, #0081fa, #02F0FD);
+                }
+                .master {
+                    background: linear-gradient(to bottom right, #a53ff8, #F804D8);
+                }
+                .grand_master {
+                    background: linear-gradient(to bottom right, #e41010, #434343);
+                }
+                .challanger {
+                    background: linear-gradient(to bottom right, #CCA804, #026AFB);
                 }
             a#container
                 img#thumbnail(src="/")

@@ -1,5 +1,6 @@
 daldal-star {
-    width: 150px;
+    position: fixed;
+    width: 50px;
     display: block;
     transition: transform 500ms;
 }
