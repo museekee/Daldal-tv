@@ -22,6 +22,14 @@ declare namespace DB {
         DISLIKES: number
         VISIBILITY: "public" | "link" | "private"
     }
+    interface Comments extends RowDataPacket {
+        VID: string
+        PROVIDER: string
+        LIKES: number
+        DISLIKES: number
+        CONTENT: string
+        TIME: Date
+    }
 }
 
 export = DB

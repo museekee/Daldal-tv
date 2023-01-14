@@ -21,10 +21,7 @@ const $data = {
     loadVideoNum: 10
 };
 
-(async () => {
-    await loadVideo()
-    await loadVideo()
-})()
+loadVideo()
 async function loadVideo() {
     const res = await fetch(`/videos?start=${$data.loadedVideo}&end=${$data.loadedVideo+$data.loadVideoNum}`)
     if (res.status === 200) {
@@ -55,8 +52,8 @@ async function loadVideo() {
             if (item.VIEWS >= 1000) props.thisRank = "challanger"
             daldalStar.style.width = `${props.thisSize}px`
             daldalStar.setAttribute("rank", props.thisRank)
-            daldalStar.style.top = `${rand(0, 90)}%`
-            daldalStar.style.left = `${rand(0, 95)}%`
+            daldalStar.style.top = `${rand(0, 85)}%`
+            daldalStar.style.left = `${rand(0, 85)}%`
             elems.stars.appendChild(daldalStar)
         }
     }

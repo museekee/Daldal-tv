@@ -24,3 +24,21 @@ button {
 .invisibility {
     display: none !important;
 }
+
+@media all and (min-width: 768px) and (max-width: 110px) { 
+    body > * {
+        zoom: 1.25;
+    }
+} 
+
+@media all and (min-width: 400px) and (max-width: 767px) {
+    body > * {
+        zoom: 1.5;
+    }
+} 
+
+@media all and (max-width: 399px) {
+    body > * {
+        zoom: 2;
+    }
+}

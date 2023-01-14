@@ -61,10 +61,10 @@ export default async function init(app: Express) {
                     res.redirect("/")
                 })
             })
-            NyLog.Log(`OAuth Strategy \x1B[1m\x1B[33m${key}\x1B[0m loaded successfully.`)
+            NyLog.log(`OAuth Strategy \x1B[1m\x1B[33m${key}\x1B[0m loaded successfully.`)
         }
         catch(e: any) {
-            NyLog.Error(`OAuth Strategy ${key} is not loaded`, {message: e.message})
+            NyLog.error(`OAuth Strategy ${key} is not loaded`, e.message)
         }
     }
 }

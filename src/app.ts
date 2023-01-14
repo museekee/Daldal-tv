@@ -28,10 +28,7 @@ app.use(async (req, res, next) => {
     if (req.user)
         res.locals.nick = req.user.nick
     if (req.originalUrl.includes("assets") || req.originalUrl.includes("/watch/stream") || req.originalUrl === "/favicon.ico") return next()
-    NyLog.Log("connected page", {
-        location: req.originalUrl,
-        ip: req.ip
-    })
+    NyLog.log(`Connected a page / ip : ${req.ip} / location: ${req.originalUrl}`)
     next()
 })
 
@@ -47,5 +44,5 @@ app.get('/', async (req, res) => {
 })
 
 app.listen(config.PORT, () => {
-    NyLog.Success(`Express server launched on ${config.PORT}`)
+    NyLog.success(`Express server launched on ${config.PORT}`)
 })

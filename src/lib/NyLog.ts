@@ -24,49 +24,44 @@ const color = {
     BgMagenta: "\x1B[45m",
     BgCyan: "\x1B[46m",
     BgWhite: "\x1B[47m"
-};
+}
 /**
  * 
- * @param { number } type 0: Log / 1: Success / 2: Error
- * @param { string } text message
- * @param { object? } add add other message
+ * @param { number } type 0: Log / 1: Success / 2: Error / #: Debug
+ * @param { string | object } text message
  */
-function CallLog(type: number, text: string, add?: object) {
-    const message = [];
+function CallLog(type: number, text?: string | object) {
+    if (type == null) return
+    text ??= typeof text
+    const message = []
     switch (type) {
         case 0:
-            message.push(`${color.FgWhite}📝 Log`);
-            break;
+            message.push(`${color.FgWhite}`)
+            break
         case 1:
-            message.push(`${color.FgGreen}✅ Success`);
-            break;
+            message.push(`${color.FgGreen}`)
+            break
         case 2:
-            message.push(`${color.FgRed}❌ Error`)
-            break;
+            message.push(`${color.FgRed}`)
+            break
+        case 3:
+            message.push(`${color.FgCyan}`)
+            break
     }
-    const date = new Date();
-    const time = `${date.toLocaleDateString()} ${date.toLocaleTimeString()} (${Date.now()})`;
-    const data = Object.entries(Object.assign({
-        type: type,
-        message: text,
-        time: time
-    }, add));
-    data.forEach(([key, value], idx) => {
-        const valueArr = value.toString().split("\n");
-        valueArr.forEach((content, idx2) => {
-            if (data.length-1=== idx && valueArr.length-1 === idx2) message.push(`└ ${key} : ${content}`);
-            else if (idx2 !== 0) message.push(`│ ${content}`); 
-            else message.push(`├ ${key} : ${content}`)
-        });
-    })
-    console.log(`${message.join("\n")}${color.Reset}`);
+    message.push(`[${new Intl.DateTimeFormat("ko", { dateStyle: 'medium', timeStyle: "medium" }).format(new Date())}] `)
+    message.push(JSON.stringify(text))
+    console.log(`${message.join("")}${color.Reset}`)
 }
-export function Log(text: string, add?: object) {
-    CallLog(0, text, add);
+export function log(text: string | object) {
+    CallLog(0, text)
 }
-export function Success(text: string, add?: object) {
-    CallLog(1, text, add);
+export function success(text: string | object) {
+    CallLog(1, text)
 }
-export function Error(text: string, add?: object) {
-    CallLog(2, text, add)
+export function error(text: string | object, stack?: string) {
+    CallLog(2, text)
+    CallLog(2, stack)
+}
+export function debug(text: string | object) {
+    CallLog(3, text)
 }

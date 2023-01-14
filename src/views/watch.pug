@@ -3,6 +3,30 @@ head
     link(rel="stylesheet" type="text/css" href="./../assets/styles/watch.css")
     script(src="./../assets/scripts/watch.js" defer)
 body
+    template#daldalComment
+        style.
+            #header {
+                display: flex;
+                align-items: center;
+                column-gap: 10px;
+                margin-bottom: 10px
+            }
+                #profilePic {
+                    width: 40px;
+                    aspect-ratio: 1 / 1;
+                    border-radius: 50%;
+                }
+                #nick {
+                    font-size: 14px;
+                }
+            #content {
+                font-size: 9px;
+            }
+        #body
+            #header
+                img#profilePic
+                span#nick
+            #content
     -
         function korNumFormatter(num, digits) {
             const lookup = [
@@ -21,7 +45,6 @@ body
             return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
         }
 
-nFormatter(87654, 2)
     main
         video#video(controls)
             source(src=stream type="video/mp4")
@@ -56,6 +79,9 @@ nFormatter(87654, 2)
                 #commentInputDiv
                     img.profilepic(src=provider.picture)
                     input#commentInput(type="text")
-                    button#send
-                        i.fa-solid.fa-paper-plane
+                    button#send: i.fa-solid.fa-paper-plane
+                #commentList
+                    daldal-comment(nick="닉네임" content="카트드리프트굳" profilePic="https://yt3.ggpht.com/h4m5QNJ6CvIv_HVZEn4Y2jIU8XRT5Vmz6f0vCtYRoNQ0h_5hkKa7BLYQO_7O6_f9b_iNnrUhnA0=s900-c-k-c0x00ffffff")
             #otherVideos.invisibility
+    script.
+        const vid = `!{video.id}`
