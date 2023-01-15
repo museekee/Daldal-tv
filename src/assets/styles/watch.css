@@ -11,6 +11,7 @@ main {
     aspect-ratio: 16/9;
     width: 100%;
     padding-right: 10px;
+    max-height: calc(100vh - 50px);
 }
 #menu {
     display: grid;
@@ -25,6 +26,7 @@ main {
         justify-content: space-evenly;
         padding: 0 !important;
         height: auto !important;
+        margin-bottom: 0 !important;
     }
         .menu_select {
             color: #9aaffb;
@@ -39,6 +41,7 @@ main {
         }
     #menu > * {
         padding: 10px;
+        height: calc(100vh - 100px);
     }
         * {
             color: #ffffff;
@@ -121,14 +124,11 @@ main {
                     margin-left: 10px;
                 }
         #comments {
-            display: grid;
-            grid-template-rows: 70px 1fr;
         }
             #commentInputDiv {
                 grid-template-columns: 50px 1fr 50px;
                 grid-template-rows: 1fr;
                 column-gap: 0px;
-                grid-row: 1;
             }
                 #send {
                     background: #ffffff;
@@ -145,7 +145,8 @@ main {
                     font-size: 17px;
                 }
             #commentList {
-                grid-row: 2;
+                height: calc(100% - 56px);
+                overflow: auto;
             }
 @media (max-width: 1100px) {
     main {
@@ -157,6 +158,9 @@ main {
         height: auto;
         padding: 0;
     }
+        #menu > * {
+            height: auto;
+        }
     #video {
         padding: 0;
     }

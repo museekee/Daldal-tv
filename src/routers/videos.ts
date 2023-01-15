@@ -49,13 +49,12 @@ router.get("/comment/:vid", async (req, res) => {
         start: start,
         end: end
     })
-    const newComments = comments.map(async (item) => {
+    const newComments = await Promise.all(comments.map(async (item) => {
         const user = (await DB.getUserById(item.PROVIDER))[0]
         item.profilePic = user.PROFILE_PIC
         item.nick = user.NICK
         return item
-    })
-    NyLog.debug(newComments)
+    }))
     return res.send(newComments)
 })
 export = router

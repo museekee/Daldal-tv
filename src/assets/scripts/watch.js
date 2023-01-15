@@ -6,7 +6,7 @@ class DaldalComment extends HTMLElement {
         this.attachShadow({ mode: "open" })
         this.shadowRoot.append(document.getElementById("daldalComment").content.cloneNode(true))
         this.shadowRoot.getElementById("nick").innerText = nick
-        this.shadowRoot.getElementById("profilePic").setAttribute("src", `${profilepic}`)
+        this.shadowRoot.getElementById("profilePic").setAttribute("src", profilepic)
         this.shadowRoot.getElementById("content").innerText = content
         this.removeAttribute("nick")
         this.removeAttribute("profilePic")
@@ -31,7 +31,8 @@ const elems = {
         input: {
             text: document.getElementById("commentInput"),
             send: document.getElementById("send")
-        }
+        },
+        list: document.getElementById("commentList")
     },
     othvids: {
         main: document.getElementById("otherVideos"),
@@ -150,6 +151,10 @@ async function loadComments() {
         $data.loadedVideo += $data.loadVideoNum
         for (const item of data) {
             const daldalStar = document.createElement("daldal-comment")
+            daldalStar.setAttribute("nick", item.nick)
+            daldalStar.setAttribute("profilePic", item.profilePic)
+            daldalStar.setAttribute("content", item.CONTENT)
+            elems.comment.list.appendChild(daldalStar)
         }
     }
 }

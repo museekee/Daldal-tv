@@ -5,6 +5,12 @@ head
 body
     template#daldalComment
         style.
+            #body {
+                border-left: 4px solid #eeeeee;
+                padding-left: 8px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+            }
             #header {
                 display: flex;
                 align-items: center;
@@ -12,15 +18,15 @@ body
                 margin-bottom: 10px
             }
                 #profilePic {
-                    width: 40px;
+                    width: 35px;
                     aspect-ratio: 1 / 1;
                     border-radius: 50%;
                 }
                 #nick {
-                    font-size: 14px;
+                    font-size: 13px;
                 }
             #content {
-                font-size: 9px;
+                font-size: 15px;
             }
         #body
             #header
@@ -81,7 +87,6 @@ body
                     input#commentInput(type="text")
                     button#send: i.fa-solid.fa-paper-plane
                 #commentList
-                    daldal-comment(nick="닉네임" content="카트드리프트굳" profilePic="https://yt3.ggpht.com/h4m5QNJ6CvIv_HVZEn4Y2jIU8XRT5Vmz6f0vCtYRoNQ0h_5hkKa7BLYQO_7O6_f9b_iNnrUhnA0=s900-c-k-c0x00ffffff")
             #otherVideos.invisibility
     script.
         const vid = `!{video.id}`
