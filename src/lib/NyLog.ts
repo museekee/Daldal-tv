@@ -1,3 +1,5 @@
+import fs from "fs/promises"
+import path from "path"
 const color = {
     Reset: "\x1B[0m",
     Bright: "\x1B[1m",
@@ -25,12 +27,24 @@ const color = {
     BgCyan: "\x1B[46m",
     BgWhite: "\x1B[47m"
 }
+
+const date = new Date()
+const filepath = path.join(__dirname, "..", "logs", `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}.log`)
+//@ts-ignore
+;(async() => {
+    try {
+        await fs.readFile(filepath)
+    }
+    catch {
+        await fs.writeFile(filepath, "", "utf8")
+    }
+})()
 /**
  * 
  * @param { number } type 0: Log / 1: Success / 2: Error / #: Debug
  * @param { string | object } text message
  */
-function CallLog(type: number, text?: string | object) {
+async function CallLog(type: number, text?: string | object) {
     if (type == null) return
     text ??= typeof text
     const message = []
@@ -48,9 +62,11 @@ function CallLog(type: number, text?: string | object) {
             message.push(`${color.FgCyan}`)
             break
     }
+    
     message.push(`[${new Intl.DateTimeFormat("ko", { dateStyle: 'medium', timeStyle: "medium" }).format(new Date())}] `)
     message.push(JSON.stringify(text))
     console.log(`${message.join("")}${color.Reset}`)
+    await fs.writeFile(filepath, `${(await fs.readFile(filepath)).toString()}\n${message.join("").replaceAll("\\", "")}`, "utf8")
 }
 export function log(text: string | object) {
     CallLog(0, text)
