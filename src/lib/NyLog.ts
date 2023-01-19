@@ -30,7 +30,7 @@ const color = {
 
 const date = new Date()
 const filepath = path.join(__dirname, "..", "logs", `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}.log`)
-//@ts-ignore
+
 ;(async() => {
     try {
         await fs.readFile(filepath)
