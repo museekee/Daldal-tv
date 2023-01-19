@@ -148,6 +148,25 @@ main {
                 height: calc(100% - 56px);
                 overflow: auto;
             }
+        #otherVideos {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 20px;
+            column-gap: 20px;
+            row-gap: 20px;
+            justify-content: space-around;
+            align-items: flex-start;
+        }
+            daldal-video {
+                width: 170px;
+                aspect-ratio: 1 / 1;
+                transition: transform 250ms;
+                cursor: pointer;
+            }
+            daldal-video:hover {
+                transform: scale(1.05);
+            }
 @media (max-width: 1100px) {
     main {
         display: block;
@@ -163,5 +182,8 @@ main {
         }
     #video {
         padding: 0;
+    }
+    daldal-video {
+        width: 40%;
     }
 }

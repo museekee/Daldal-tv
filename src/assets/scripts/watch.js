@@ -17,6 +17,28 @@ class DaldalComment extends HTMLElement {
     }
 }
 customElements.define("daldal-comment", DaldalComment)
+class DaldalVideo extends HTMLElement {
+    connectedCallback() {
+        const id = this.getAttribute("src")
+        const title = this.getAttribute("title")
+        const pf = this.getAttribute("profilepic")
+        const author = this.getAttribute("author")
+        this.attachShadow({ mode: "open" })
+        this.shadowRoot.append(document.getElementById("daldalVideo").content.cloneNode(true))
+        this.shadowRoot.getElementById("thumbnail").style.background = `url(/videos/getthumbnail/${id})`
+        this.shadowRoot.getElementById("title").innerText = title
+        this.shadowRoot.getElementById("profilePic").setAttribute("src", pf)
+        this.shadowRoot.getElementById("author").innerText = author
+        this.removeAttribute("title")
+        this.removeAttribute("profilepic")
+        this.removeAttribute("author")
+        this.removeAttribute("src")
+        this.addEventListener("click", () => {
+            window.location.href = `/watch/${id}`
+        })
+    }
+}
+customElements.define("daldal-video", DaldalVideo)
 const elems = {
     vidinfo: {
         main: document.getElementById("video_information"),
@@ -177,11 +199,11 @@ async function loadVideos() {
         $data.loadedVideo += $data.loadedVideoNum
         for (const item of data) {
             const daldalStar = document.createElement("daldal-video")
-            daldalStar.setAttribute("nick", item.nick)
-            daldalStar.setAttribute("profilePic", item.profilePic)
-            daldalStar.setAttribute("content", item.CONTENT)
-            daldalStar.setAttribute("datetime", item.datetime)
-            elems.comment.list.appendChild(daldalStar)
+            daldalStar.setAttribute("src", item.ID)
+            daldalStar.setAttribute("title", item.TITLE)
+            daldalStar.setAttribute("profilepic", item.profilepic)
+            daldalStar.setAttribute("author", item.author)
+            elems.othvids.main.appendChild(daldalStar)
         }
     }
 }

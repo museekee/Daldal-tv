@@ -43,40 +43,56 @@ body
     template#daldalVideo
         style.
             #body {
-                border-left: 4px solid #eeeeee;
-                padding-left: 8px;
-                margin-bottom: 10px;
-                border-radius: 5px;
+                position: relative;
+                width: 170px;
+                height: 170px;
             }
-            #header {
-                display: flex;
-                align-items: center;
-                column-gap: 10px;
-                margin-bottom: 10px;
+            #body > div {
+                position: absolute;
+                text-shadow: 0 1px 1px #000;
+            }
+            #thumbnail {
+                width: 170px;
+                height: 170px;
+                border-radius: 10px;
+                background-size: cover !important;
+            }
+            #title {
+                bottom: 0;
                 width: 100%;
+                padding: 8px 0;
+                text-align: center;
+                background: url(https://daldal.so/media/images/dark-banner.png) 0 0/100% 100%;
+            }
+            #channel {
+                top: 4px;
+                left: 4px;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
                 #profilePic {
-                    width: 35px;
-                    aspect-ratio: 1 / 1;
+                    width: 1.5em;
+                    height: 1.5em;
                     border-radius: 50%;
+                    vertical-align: middle;
                 }
-                #nick {
-                    font-size: 13px;
+            @media (max-width: 1100px) {
+                #body, #thumbnail {
+                    width: 100%;
+                    height: 100%;
                 }
-                #datetime {
-                    margin-left: auto;
-                    margin-right: 10px;
-                    font-size: 13px;
-                }
-            #content {
-                font-size: 15px;
             }
+            
         #body
-            #header
+            #thumbnail
+            #title
+            #channel
                 img#profilePic
-                span#nick
-                span#datetime 0년 1개월전
-            #content
+                | &nbsp;
+                span#author
+            
     -
         function korNumFormatter(num, digits) {
             const lookup = [

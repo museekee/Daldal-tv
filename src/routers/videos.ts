@@ -82,9 +82,16 @@ router.get("/recommentvideo", async (req, res) => {
     const start = parseInt(req.query.start.toString())
     const end = parseInt(req.query.end.toString())
     if (typeof start !== "number" || typeof end !== "number") return res.sendStatus(403)
-    return res.send(await DB.getVideoOrderByChobo({
+    const videos = await DB.getVideoOrderByChobo({
         start: start,
         end: end
+    })
+    const newVideos = await Promise.all(videos.map(async item => {
+        const user = (await DB.getUserById(item.PROVIDER))[0]
+        item["author"] = user.NICK
+        item["profilepic"] = user.PROFILE_PIC
+        return item
     }))
+    return res.send(newVideos)
 })
 export = router
