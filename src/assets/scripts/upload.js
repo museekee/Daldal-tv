@@ -42,7 +42,7 @@ elems.uploadData.thumbnailForm.addEventListener("change", () => {
 
 elems.uploadData.title.addEventListener("change", () => uploadData.title = elems.uploadData.title.value)
 elems.uploadData.description.addEventListener("change", () => uploadData.description = elems.uploadData.description.value)
-elems.uploadData.visibility.addEventListener("change", () => uploadData.visibility = elems.uploadData.visibility.value)
+elems.uploadData.visibility.addEventListener("change", () => uploadData.visibility = document.querySelector('input[name="visibility"]:checked').value)
 
 
 //! Upload

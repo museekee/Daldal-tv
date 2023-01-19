@@ -6,7 +6,7 @@ import path from "path"
 import session from "express-session"
 const MySQLStore = require("express-mysql-session")(session)
 import AuthInit from "./routers/auth"
-import rateLimit from "express-rate-limit"
+// import rateLimit from "express-rate-limit"
 import {} from "./lib/types/app"
 
 const app = express()
@@ -28,7 +28,7 @@ app.use(async (req, res, next) => {
     if (req.user)
         res.locals.nick = req.user.nick
     if (req.originalUrl.includes("assets") || req.originalUrl.includes("/watch/stream") || req.originalUrl === "/favicon.ico") return next()
-    NyLog.log(`Connected a page / ip : ${req.ip} / location: ${req.originalUrl}`)
+    NyLog.log(`Connected a page / ip : ${req.ip} / location: ${req.headers.host}${req.originalUrl}`)
     next()
 })
 

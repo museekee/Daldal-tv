@@ -3,14 +3,17 @@ class DaldalComment extends HTMLElement {
         const nick = this.getAttribute("nick")
         const profilepic = this.getAttribute("profilePic")
         const content = this.getAttribute("content")
+        const datetime = this.getAttribute("datetime")
         this.attachShadow({ mode: "open" })
         this.shadowRoot.append(document.getElementById("daldalComment").content.cloneNode(true))
         this.shadowRoot.getElementById("nick").innerText = nick
         this.shadowRoot.getElementById("profilePic").setAttribute("src", profilepic)
         this.shadowRoot.getElementById("content").innerText = content
+        this.shadowRoot.getElementById("datetime").innerText = datetime
         this.removeAttribute("nick")
         this.removeAttribute("profilePic")
         this.removeAttribute("content")
+        this.removeAttribute("datetime")
     }
 }
 customElements.define("daldal-comment", DaldalComment)
@@ -39,8 +42,10 @@ const elems = {
     }
 }
 const $data = {
+    loadedComment: 0,
+    loadCommentNum: 100,
     loadedVideo: 0,
-    loadVideoNum: 100
+    loadedVideoNum: 20
 }
 //!#region 메뉴
 for (const elem of document.getElementsByClassName("menu_select")) elem.addEventListener("click", () => {
@@ -105,55 +110,77 @@ elems.vidinfo.function.share.addEventListener("click", async () => {
 })
 //#endregion
 //!#region 댓글
-elems.comment.input.send.addEventListener("click", async () => {
-    const res = await fetch("/videos/comment/add", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            vid: vid,
-            content: elems.comment.input.text.value
+if (elems.comment.input.send)
+    elems.comment.input.send.addEventListener("click", async () => {
+        const res = await fetch("/videos/comment/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                vid: vid,
+                content: elems.comment.input.text.value
+            })
         })
+        const data = await res.json()
+        if (res.status === 200) {
+            console.log("성공")
+            elems.comment.input.text.value = ""
+        }
+        else if (res.status === 403) {
+            await swal({
+                icon: "error",
+                title: "오류!",
+                text: data.reason,
+                buttons: {
+                    comfirm: "확인"
+                }
+            }) 
+        }
+        else {
+            await swal({
+                icon: "error",
+                title: "오류!",
+                text: "댓글을 등록하는 중, 모종의 오류가 발생하였습니다.",
+                buttons: {
+                    comfirm: "확인"
+                }
+            }) 
+        }
     })
-    const data = await res.json()
-    if (res.status === 200) {
-        console.log("성공")
-        elems.comment.input.text.value = ""
-    }
-    else if (res.status === 403) {
-        await swal({
-            icon: "error",
-            title: "오류!",
-            text: data.reason,
-            buttons: {
-                comfirm: "확인"
-            }
-        }) 
-    }
-    else {
-        await swal({
-            icon: "error",
-            title: "오류!",
-            text: "댓글을 등록하는 중, 모종의 오류가 발생하였습니다.",
-            buttons: {
-                comfirm: "확인"
-            }
-        }) 
-    }
-})
 loadComments()
 async function loadComments() {
-    const res = await fetch(`/videos/comment/${vid}?start=${$data.loadedVideo}&end=${$data.loadedVideo+$data.loadVideoNum}`)
+    const res = await fetch(`/videos/comment/${vid}?start=${$data.loadedComment}&end=${$data.loadedComment+$data.loadCommentNum}`)
     if (res.status === 200) {
         const data = await res.json()
         console.log(data)
-        $data.loadedVideo += $data.loadVideoNum
+        $data.loadedComment += $data.loadCommentNum
         for (const item of data) {
             const daldalStar = document.createElement("daldal-comment")
             daldalStar.setAttribute("nick", item.nick)
             daldalStar.setAttribute("profilePic", item.profilePic)
             daldalStar.setAttribute("content", item.CONTENT)
+            daldalStar.setAttribute("datetime", item.datetime)
+            elems.comment.list.appendChild(daldalStar)
+        }
+    }
+}
+//#endregion
+
+//!#region 다른 동영상
+loadVideos()
+async function loadVideos() {
+    const res = await fetch(`/videos/recommentvideo?start=${$data.loadedVideo}&end=${$data.loadedVideo+$data.loadedVideoNum}`)
+    if (res.status === 200) {
+        const data = await res.json()
+        console.log(data)
+        $data.loadedVideo += $data.loadedVideoNum
+        for (const item of data) {
+            const daldalStar = document.createElement("daldal-video")
+            daldalStar.setAttribute("nick", item.nick)
+            daldalStar.setAttribute("profilePic", item.profilePic)
+            daldalStar.setAttribute("content", item.CONTENT)
+            daldalStar.setAttribute("datetime", item.datetime)
             elems.comment.list.appendChild(daldalStar)
         }
     }

@@ -115,6 +115,15 @@ export async function updateVideo(vid: string, data: Omit<DB.Videos, "UPLOADED_A
     `)
     conn.release()
 }
+export async function getVideoOrderByChobo(option: {
+    start: number
+    end: number
+}) {
+    const conn = await pool.getConnection()
+    const [videos]: [DB.Videos[], FieldPacket[]] = await conn.query(`SELECT * FROM videos ORDER BY 'VIEWS' ASC, 'LIKES' ASC, 'DISLIKES' DESC, 'UPLOADED_AT' ASC LIMIT ${option.start}, ${option.end}`)
+    conn.release()
+    return videos
+}
 //#endregion
 //! #region Comment
 export async function addComment(data: {
@@ -146,7 +155,7 @@ export async function getCommentsById(vid: string, option?: {
 }) {
     const LIMIT = option ? `LIMIT ${option.start}, ${option.end}` : ""
     const conn = await pool.getConnection()
-    const [rows]: [DB.Comments[], FieldPacket[]] = await conn.query(`SELECT * FROM comments WHERE VID = ${conn.escape(vid)} ${LIMIT};`)
+    const [rows]: [DB.Comments[], FieldPacket[]] = await conn.query(`SELECT * FROM comments WHERE VID = ${conn.escape(vid)} ORDER BY TIME DESC ${LIMIT};`)
     conn.release()
     return rows
 }
