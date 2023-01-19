@@ -15,7 +15,8 @@ body
                 display: flex;
                 align-items: center;
                 column-gap: 10px;
-                margin-bottom: 10px
+                margin-bottom: 10px;
+                width: 100%;
             }
                 #profilePic {
                     width: 35px;
@@ -25,6 +26,11 @@ body
                 #nick {
                     font-size: 13px;
                 }
+                #datetime {
+                    margin-left: auto;
+                    margin-right: 10px;
+                    font-size: 13px;
+                }
             #content {
                 font-size: 15px;
             }
@@ -32,6 +38,44 @@ body
             #header
                 img#profilePic
                 span#nick
+                span#datetime 0년 1개월전
+            #content
+    template#daldalVideo
+        style.
+            #body {
+                border-left: 4px solid #eeeeee;
+                padding-left: 8px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+            }
+            #header {
+                display: flex;
+                align-items: center;
+                column-gap: 10px;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+                #profilePic {
+                    width: 35px;
+                    aspect-ratio: 1 / 1;
+                    border-radius: 50%;
+                }
+                #nick {
+                    font-size: 13px;
+                }
+                #datetime {
+                    margin-left: auto;
+                    margin-right: 10px;
+                    font-size: 13px;
+                }
+            #content {
+                font-size: 15px;
+            }
+        #body
+            #header
+                img#profilePic
+                span#nick
+                span#datetime 0년 1개월전
             #content
     -
         function korNumFormatter(num, digits) {
@@ -82,10 +126,11 @@ body
                         i.fas.fa-share
                         span 공유
             #comments.invisibility
-                #commentInputDiv
-                    img.profilepic(src=provider.picture)
-                    input#commentInput(type="text")
-                    button#send: i.fa-solid.fa-paper-plane
+                if my.picture
+                    #commentInputDiv
+                        img.profilepic(src=my.picture)
+                        input#commentInput(type="text")
+                        button#send: i.fa-solid.fa-paper-plane
                 #commentList
             #otherVideos.invisibility
     script.
