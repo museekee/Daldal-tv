@@ -13,11 +13,15 @@ router.get("/", async (req, res) => {
     const start = parseInt(req.query.start.toString())
     const end = parseInt(req.query.end.toString())
     if (typeof start !== "number" || typeof end !== "number") return res.sendStatus(403)
-    const videos = await DB.getVideosById("*", {
+    const videos = await Promise.all((await DB.getVideosById("*", {
         start: start,
         end: end,
         visibility: "public"
-    })
+    })).map(async item => {
+        if (item.TYPE === "daldal-tv") item["thumbnailUrl"] = `/videos/getthumbnail/${item.ID}`
+        else item["thumbnailUrl"] = (await DB.getOtherVideoTypes(item.TYPE))[0].THUMBNAIL.replace("___ID___", item.ID)
+        return item
+    }))
     return res.send(videos)
 })
 router.get("/getthumbnail/:vid", async (req, res) => {

@@ -46,7 +46,8 @@ export async function addVideo(data: {
     title: string
     description: string
     visibility: string
-    provider: string
+    provider: string,
+    type: "daldal-tv" | "youtube"
 }) {
     const conn = await pool.getConnection()    
     await conn.query(`
@@ -57,7 +58,8 @@ export async function addVideo(data: {
             DESCRIPTION,
             UPLOADED_AT,
             PROVIDER,
-            VISIBILITY
+            VISIBILITY,
+            TYPE
         )
         VALUES (
             ${conn.escape(data.id)},
@@ -65,7 +67,8 @@ export async function addVideo(data: {
             ${conn.escape(data.description !== "undefined" ? data.description : "")},
             NOW(),
             ${conn.escape(data.provider)},
-            ${conn.escape(data.visibility)}
+            ${conn.escape(data.visibility)},
+            ${conn.escape(data.type)}
         );
     `)
     conn.release()
@@ -120,7 +123,15 @@ export async function getVideoOrderByChobo(option: {
     end: number
 }) {
     const conn = await pool.getConnection()
-    const [videos]: [DB.Videos[], FieldPacket[]] = await conn.query(`SELECT * FROM videos ORDER BY 'VIEWS' ASC, 'LIKES' ASC, 'DISLIKES' DESC, 'UPLOADED_AT' ASC LIMIT ${option.start}, ${option.end}`)
+    const [videos]: [DB.Videos[], FieldPacket[]] = await conn.query(`
+        SELECT * FROM videos 
+        ORDER BY
+            'VIEWS' ASC,
+            'LIKES' ASC,
+            'DISLIKES' DESC,
+            'UPLOADED_AT' ASC
+        LIMIT ${option.start}, ${option.end};
+    `)
     conn.release()
     return videos
 }
@@ -158,5 +169,20 @@ export async function getCommentsById(vid: string, option?: {
     const [rows]: [DB.Comments[], FieldPacket[]] = await conn.query(`SELECT * FROM comments WHERE VID = ${conn.escape(vid)} ORDER BY TIME DESC ${LIMIT};`)
     conn.release()
     return rows
+}
+//#endregion
+//! #region OtherVideo
+export async function getOtherVideoTypes(type?: string) {
+    const conn = await pool.getConnection()
+    if (!type) {
+        const [rows]: [DB.OtherVideos[], FieldPacket[]] = await conn.query("SELECT * FROM other_videos;")
+        conn.release()
+        return rows
+    }
+    else {
+        const [rows]: [DB.OtherVideos[], FieldPacket[]] = await conn.query(`SELECT * FROM other_videos WHERE ID = ${conn.escape(type)};`)
+        conn.release()
+        return rows
+    }
 }
 //#endregion

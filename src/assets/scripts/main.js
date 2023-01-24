@@ -1,12 +1,13 @@
 class DaldalStar extends HTMLElement {
     connectedCallback() {
         const videoId = this.getAttribute("src")
+        const thumb = this.getAttribute("thumb")
         const videoTitle = this.getAttribute("title")
         const rank = this.getAttribute("rank")
         this.attachShadow({ mode: "open" })
         this.shadowRoot.append(document.getElementById("daldalStar").content.cloneNode(true))
         this.shadowRoot.getElementById("title").innerText = videoTitle
-        this.shadowRoot.getElementById("thumbnail").setAttribute("src", `videos/getthumbnail/${videoId}`)
+        this.shadowRoot.getElementById("thumbnail").setAttribute("src", thumb)
         this.shadowRoot.getElementById("thumbnail").setAttribute("class", rank)
         this.shadowRoot.getElementById("container").setAttribute("href", `/watch/${videoId}`)
     }
@@ -35,6 +36,7 @@ async function loadVideo() {
             }
             const daldalStar = document.createElement("daldal-star")
             daldalStar.setAttribute("src", item.ID)
+            daldalStar.setAttribute("thumb", item.thumbnailUrl)
             daldalStar.setAttribute("title", item.TITLE)
             if (item.VIEWS < 10) props.thisSize += (item.VIEWS + 1) * 5 + 50
             else if (item.VIEWS < 150) props.thisSize += item.VIEWS

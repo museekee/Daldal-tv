@@ -2,6 +2,7 @@ const elems = {
     uploadBox: document.getElementById("uploadBox"),
     videoFile: document.getElementById("videoFile"),
     uploadBtn: document.getElementById("uploadBtn"),
+    otherUpload: document.getElementById("otherUpload"),
     uploadData: {
         main: document.getElementById("uploadData"),
         title: document.getElementById("titleInput"),
@@ -25,6 +26,7 @@ elems.videoFile.addEventListener("change", () => {
     const file = elems.videoFile.files[0]
     elems.uploadBox.setAttribute("class", "")
     elems.uploadBtn.remove()
+    elems.otherUpload.remove()
     elems.uploadData.main.setAttribute("class", "")
     uploadData.video = file
     elems.uploadData.preVideo.setAttribute("src", URL.createObjectURL(file)) 

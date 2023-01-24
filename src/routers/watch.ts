@@ -14,7 +14,7 @@ router.get("/:vid", async (req, res) => {
     if (video.VISIBILITY === "private" && video.PROVIDER !== req.user?.id) return res.status(403).send("비공개 동영상입니다.")
     const provider = (await DB.getUserById(video.PROVIDER))[0]
     const senddata = {
-        stream: `/watch/stream/${req.params.vid}`,
+        stream: "",
         video: {
             id: video.ID,
             title: video.TITLE,
@@ -31,6 +31,7 @@ router.get("/:vid", async (req, res) => {
         },
         my: {}
     }
+    if (video.TYPE === "daldal-tv") senddata.stream = `/watch/stream/${req.params.vid}`
     await DB.updateVideo(video.ID, {
         VIEWS: 1
     })

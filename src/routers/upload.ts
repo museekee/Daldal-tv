@@ -4,9 +4,12 @@ import path from "path"
 import config from "./../lib/config.json"
 import multer from "multer"
 import * as DB from "./../lib/db"
+import yt from "./../lib/utils/youtube"
 
 const router = express.Router()
 const upload = multer()
+
+router.use(express.json())
 
 router.use(async (req, res, next) => {
     if (!req.user) return res.redirect("login")
@@ -51,7 +54,8 @@ router.post("/", upload.fields([{name: "video", maxCount: 1}, {name: "thumbnail"
         title: title,
         description: description,
         visibility: visibility,
-        provider: req.user!.id
+        provider: req.user!.id,
+        type: "daldal-tv"
     })
     console.log("uploaded video", {
         id: vid,
@@ -80,6 +84,29 @@ router.post("/", upload.fields([{name: "video", maxCount: 1}, {name: "thumbnail"
             })
         })
     }
+})
+router.get("/other", async (req, res) => {
+    return res.render("upload_other", {
+        other: await DB.getOtherVideoTypes()
+    })
+})
+router.post("/other", async (req, res) => {
+    const platform = req.body.platform
+    const vid = req.body.vid
+    let data = undefined
+    if (platform === "youtube") {
+        data = await yt(vid)
+    }
+    if (!data) return res.status(403).send({ reason: "Cannot find the video." })
+    console.log(data)
+    await DB.addVideo({
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        visibility: "public",
+        provider: req.user!.id,
+        type: data.platform as "youtube" | "daldal-tv"
+    })
 })
 function generateRandomString (num: number) {
     const characters ='1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';

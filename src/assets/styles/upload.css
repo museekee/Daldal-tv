@@ -46,6 +46,18 @@ main {
         color: #eeff00;
         font-size: 75px;
         transition: all 500ms;
+        height: 90%;
+    }
+    #otherUpload {
+        display: flex;
+        height: 10%;
+        font-size: 25px;
+        color: #006eff;
+        border: none;
+        border-top: 1px solid #000000;
+        align-items: center;
+        justify-content: center;
+        transition: all 500ms;
     }
 .notUpload:hover {
     transform: scale(1.01);
@@ -56,8 +68,11 @@ main {
                 0 0 2.8rem #ffff00,
                 inset 0 0 1.3rem #ffff88;
 }
-#uploadBox:hover #uploadBtn {
+#uploadBtn:hover {
     color: #ffff66;
+}
+#otherUpload:hover {
+    color: #2f89ff;
 }
 
 

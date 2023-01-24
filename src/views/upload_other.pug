@@ -1,0 +1,20 @@
+include header
+html
+    head
+        link(rel="stylesheet" type="text/css" href="./../assets/styles/upload_other.css")
+        script(src="./../assets/scripts/upload_other.js" defer)
+    body
+        main
+            #uploadBox
+                #selectPlatform
+                    - for (const item of other)
+                        div
+                            input(type="radio" name="platform" value=item.ID checked data-location=item.LOCATION)
+                            label=item.NAME
+                    
+                #prevideo
+                    input#videoLocation(type="text", placeholder="영상의 ID만 입력해주세요")
+                    iframe#video
+                button#share
+                    i.fas.fa-share
+                    |  공유

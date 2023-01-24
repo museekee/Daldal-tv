@@ -21,6 +21,7 @@ declare namespace DB {
         LIKES: number
         DISLIKES: number
         VISIBILITY: "public" | "link" | "private"
+        TYPE: "daldal-tv" | "youtube"
     }
     interface Comments extends RowDataPacket {
         VID: string
@@ -29,6 +30,12 @@ declare namespace DB {
         DISLIKES: number
         CONTENT: string
         TIME: Date
+    }
+    interface OtherVideos extends RowDataPacket {
+        NAME: string
+        LOCATION: string
+        THUMBNAIL: string
+        NAME: string
     }
 }
 
