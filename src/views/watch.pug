@@ -112,9 +112,12 @@ body
         }
 
     main
-        video#video(controls)
-            source(src=stream type="video/mp4")
-            | video태그를 지원하지 않는 브라우저입니다.
+        - if (frame === "video")
+            video#video(controls)
+                source(src=stream type="video/mp4")
+                | video태그를 지원하지 않는 브라우저입니다.
+        - if (frame === "iframe")
+            iframe#video(src=stream allowfullscreen)
         #menu
             #menu_buttons
                 button.menu_select(data-do="vidinfo") 영상 정보

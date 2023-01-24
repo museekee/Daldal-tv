@@ -30,7 +30,7 @@ elems.share.addEventListener("click", async () => {
         })
     })
     if (res.status === 200) {
-        console.log(res)
+        window.location.href = ((await res.json()).location)
     }
     else if (res.status === 403) {
         swal({

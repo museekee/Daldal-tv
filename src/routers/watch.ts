@@ -29,9 +29,14 @@ router.get("/:vid", async (req, res) => {
             picture: provider.PROFILE_PIC,
             subs: provider.SUBSCRIBERS
         },
-        my: {}
+        my: {},
+        frame: "video"
     }
     if (video.TYPE === "daldal-tv") senddata.stream = `/watch/stream/${req.params.vid}`
+    else {
+        senddata.frame = "iframe"
+        senddata.stream = (await DB.getOtherVideoTypes(video.TYPE))[0].LOCATION.replace("___ID___", video.ID)
+    }
     await DB.updateVideo(video.ID, {
         VIEWS: 1
     })

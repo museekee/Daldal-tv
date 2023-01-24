@@ -9,7 +9,7 @@ export const pool = maria.createPool({
     database: config.MARIA_DB,
 })
 
-//! #region User
+// #region User
 export async function getUserById(id: string) {
     const conn = await pool.getConnection()
     const [rows]: [DB.User[], FieldPacket[]] = await conn.query(`SELECT * FROM users WHERE ID = ${conn.escape(id)};`)
@@ -40,7 +40,7 @@ export async function addUserByProfile(profile: {
     `)
 }
 //#endregion
-//! #region Video
+// #region Video
 export async function addVideo(data: {
     id: string
     title: string
@@ -124,7 +124,8 @@ export async function getVideoOrderByChobo(option: {
 }) {
     const conn = await pool.getConnection()
     const [videos]: [DB.Videos[], FieldPacket[]] = await conn.query(`
-        SELECT * FROM videos 
+        SELECT * FROM videos
+        WHERE VISIBILITY = 'public'
         ORDER BY
             'VIEWS' ASC,
             'LIKES' ASC,
@@ -136,7 +137,7 @@ export async function getVideoOrderByChobo(option: {
     return videos
 }
 //#endregion
-//! #region Comment
+// #region Comment
 export async function addComment(data: {
     vid: string,
     provier: string
@@ -171,7 +172,7 @@ export async function getCommentsById(vid: string, option?: {
     return rows
 }
 //#endregion
-//! #region OtherVideo
+// #region OtherVideo
 export async function getOtherVideoTypes(type?: string) {
     const conn = await pool.getConnection()
     if (!type) {

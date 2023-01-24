@@ -199,7 +199,7 @@ async function loadVideos() {
         const data = await res.json()
         console.log(data)
         $data.loadedVideo += $data.loadedVideoNum
-        for (const item of data) {
+        for await (const item of data) {
             const daldalStar = document.createElement("daldal-video")
             daldalStar.setAttribute("src", item.ID)
             daldalStar.setAttribute("title", item.TITLE)

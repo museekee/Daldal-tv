@@ -12,6 +12,7 @@ main {
     width: 100%;
     padding-right: 10px;
     max-height: calc(100vh - 50px);
+    border: none;
 }
 #menu {
     display: grid;

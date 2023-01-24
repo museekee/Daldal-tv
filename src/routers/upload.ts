@@ -93,9 +93,15 @@ router.get("/other", async (req, res) => {
 router.post("/other", async (req, res) => {
     const platform = req.body.platform
     const vid = req.body.vid
+    if ((await DB.getVideosById(vid)).length !== 0) return res.status(403).send({ reason: "Duplicate video." })
     let data = undefined
-    if (platform === "youtube") {
-        data = await yt(vid)
+    try {
+        if (platform === "youtube") {
+            data = await yt(vid)
+        }
+    }
+    catch (e: any) {
+        return res.status(403).send({ reason: e.message }) 
     }
     if (!data) return res.status(403).send({ reason: "Cannot find the video." })
     console.log(data)
@@ -107,6 +113,7 @@ router.post("/other", async (req, res) => {
         provider: req.user!.id,
         type: data.platform as "youtube" | "daldal-tv"
     })
+    return res.send({ location: `/watch/${vid}` })
 })
 function generateRandomString (num: number) {
     const characters ='1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
