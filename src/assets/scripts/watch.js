@@ -23,9 +23,10 @@ class DaldalVideo extends HTMLElement {
         const title = this.getAttribute("title")
         const pf = this.getAttribute("profilepic")
         const author = this.getAttribute("author")
+        const thumb = this.getAttribute("thumb")
         this.attachShadow({ mode: "open" })
         this.shadowRoot.append(document.getElementById("daldalVideo").content.cloneNode(true))
-        this.shadowRoot.getElementById("thumbnail").style.background = `url(/videos/getthumbnail/${id})`
+        this.shadowRoot.getElementById("thumbnail").style.background = `url(${thumb})`
         this.shadowRoot.getElementById("title").innerText = title
         this.shadowRoot.getElementById("profilePic").setAttribute("src", pf)
         this.shadowRoot.getElementById("author").innerText = author
@@ -33,6 +34,7 @@ class DaldalVideo extends HTMLElement {
         this.removeAttribute("profilepic")
         this.removeAttribute("author")
         this.removeAttribute("src")
+        this.removeAttribute("thumb")
         this.addEventListener("click", () => {
             window.location.href = `/watch/${id}`
         })
@@ -69,7 +71,7 @@ const $data = {
     loadedVideo: 0,
     loadedVideoNum: 20
 }
-//!#region 메뉴
+//#region 메뉴
 for (const elem of document.getElementsByClassName("menu_select")) elem.addEventListener("click", () => {
     invisibleEvery()
     switch (elem.dataset.do) {
@@ -109,7 +111,7 @@ function copy(text) {
 }
 //#endregion
 
-//!#region 영상정보
+//#region 영상정보
 elems.vidinfo.function.share.addEventListener("click", async () => {
     const a = document.createElement("a")
     a.href = window.location.href
@@ -131,7 +133,7 @@ elems.vidinfo.function.share.addEventListener("click", async () => {
     }
 })
 //#endregion
-//!#region 댓글
+//#region 댓글
 if (elems.comment.input.send)
     elems.comment.input.send.addEventListener("click", async () => {
         const res = await fetch("/videos/comment/add", {
@@ -189,7 +191,7 @@ async function loadComments() {
 }
 //#endregion
 
-//!#region 다른 동영상
+//#region 다른 동영상
 loadVideos()
 async function loadVideos() {
     const res = await fetch(`/videos/recommentvideo?start=${$data.loadedVideo}&end=${$data.loadedVideo+$data.loadedVideoNum}`)
@@ -203,6 +205,7 @@ async function loadVideos() {
             daldalStar.setAttribute("title", item.TITLE)
             daldalStar.setAttribute("profilepic", item.profilepic)
             daldalStar.setAttribute("author", item.author)
+            daldalStar.setAttribute("thumb", item.thumbnailUrl)
             elems.othvids.main.appendChild(daldalStar)
         }
     }

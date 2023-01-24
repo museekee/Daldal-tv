@@ -94,6 +94,8 @@ router.get("/recommentvideo", async (req, res) => {
         const user = (await DB.getUserById(item.PROVIDER))[0]
         item["author"] = user.NICK
         item["profilepic"] = user.PROFILE_PIC
+        if (item.TYPE === "daldal-tv") item["thumbnailUrl"] = `/videos/getthumbnail/${item.ID}`
+        else item["thumbnailUrl"] = (await DB.getOtherVideoTypes(item.TYPE))[0].THUMBNAIL.replace("___ID___", item.ID)
         return item
     }))
     return res.send(newVideos)
