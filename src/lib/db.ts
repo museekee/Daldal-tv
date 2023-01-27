@@ -77,12 +77,14 @@ export async function addVideo(data: {
 export async function getVideosById(vid: string, option?: {
     start: number,
     end: number,
-    visibility: string
+    visibility: string,
+    who?: string
 }) {
     const conn = await pool.getConnection()
     let WHERE = "WHERE " 
     WHERE += vid === "*" ? "" : `ID = ${conn.escape(vid)} `
     WHERE += !option ? "" : `VISIBILITY = ${conn.escape(option.visibility)} `
+    WHERE += option?.who ? `AND PROVIDER = ${conn.escape(option.who)}` : ""
     if (WHERE === "WHERE ") WHERE = ""
     if (option) {
         const [rows]: [DB.Videos[], FieldPacket[]] = await conn.query(`SELECT * FROM videos ${WHERE} LIMIT ${option.start}, ${option.end};`)

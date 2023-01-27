@@ -11,12 +11,20 @@ router.get("/:cid", async (req, res) => {
     try {
         const user = await DB.getUserById(req.params.cid)
         return res.render("channel", {
-            id: user.ID,
-            nick: user.NICK,
-            pic: user.PROFILE_PIC,
-            about: user.ABOUT_ME,
-            subs: user.SUBSCRIBERS,
-            subsing: user.SUBSCRIBING
+            channel: {
+                id: user.ID,
+                nick: user.NICK,
+                pic: user.PROFILE_PIC,
+                about: user.ABOUT_ME,
+                subs: user.SUBSCRIBERS,
+                subsing: user.SUBSCRIBING,
+                videoLen: (await DB.getVideosById("*", {
+                    start: 0,
+                    end: 99999999999,
+                    visibility: "public",
+                    who: user.ID
+                })).length
+            }
         })
     }
     catch {

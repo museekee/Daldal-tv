@@ -1,7 +1,40 @@
 include header
+include components
 html
     head
         link(rel="stylesheet" type="text/css" href="./../assets/styles/channel.css")
-        script(src="./../assets/scripts/channel.js")
+        script(src="./../assets/scripts/channel.js" defer)
+        script.
+            const cid = `!{channel.id}`
     body
-        
+        article
+            #head
+                img#pfp(src=channel.pic)
+                span#nick=channel.nick
+                #subsDiv
+                    button#subs
+                        span.icon.fa-fw.fas.fa-heart 
+                        | #{channel.subs}
+                        label.desc &nbsp;성원중
+            main
+                section#section-owner
+                    .head
+                        i.fa-fw.fas.fa-user
+                        |  주인장
+                    .body
+                        img#owner-pfp(src=channel.pic)
+                        .body
+                            #user-panel
+                                .leaf=channel.videoLen
+                                | #{channel.nick}
+                            .desc=channel.about
+                section#section-subsing
+                    .head
+                        i.fa-fw.fas.fa-users
+                        |  구독중
+                    .body
+                section#section-videos
+                    .head
+                        i.fa-fw.fas.fa-server
+                        |  동영상
+                    .body

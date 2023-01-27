@@ -106,4 +106,21 @@ router.get("/recommentvideo", async (req, res) => {
     }))
     return res.send(newVideos)
 })
+router.get("/:uid", async (req, res) => {
+    if (!req.query.start || !req.query.end) return res.sendStatus(403)
+    const start = parseInt(req.query.start.toString())
+    const end = parseInt(req.query.end.toString())
+    if (typeof start !== "number" || typeof end !== "number") return res.sendStatus(403)
+    const videos = await DB.getVideosById("*", {
+        start: start,
+        end: end,
+        visibility: "public",
+        who: req.params.uid
+    })
+    return res.send(await Promise.all(videos.map(async item => {
+        if (item.TYPE === "daldal-tv") item["thumbnailUrl"] = `/videos/getthumbnail/${item.ID}`
+        else item["thumbnailUrl"] = (await DB.getOtherVideoTypes(item.TYPE))[0].THUMBNAIL.replace("___ID___", item.ID)
+        return item
+    })))
+})
 export = router

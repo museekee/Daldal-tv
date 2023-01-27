@@ -1,0 +1,135 @@
+* {
+    color: #eeeeee;
+}
+.leaf {
+    display: inline-block;
+    text-shadow: 0 1px 1px #000;
+    background-image: url("https://daldal.so/media/images/libra-holders/z1.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 3.5em;
+    padding: 9px 4px;
+    margin: 0 2px;
+    color: #fff;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
+    text-align: center;
+    font-size: 9pt;
+}
+article {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    height: calc(100% - 36px);
+}
+#head {
+    display: grid;
+    grid-template-areas:
+        "P N"
+        "P S";
+    grid-template-columns: auto 1fr;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 50%);
+}
+    #pfp {
+        grid-area: P;
+        width: 80px;
+        height: 80px;
+        margin: 8px;
+        border-radius: 50%;
+    }
+    #nick {
+        grid-area: N;
+        margin-top: auto;
+        font-size: 12pt;
+        font-weight: bold;
+        letter-spacing: .15em;
+    }
+    #subsDiv {
+        margin-top: 7px;
+        grid-area: S;
+    }
+        #subs {
+            border-radius: 5px;
+            transition: all 200ms ease;
+            border: #ff5a77 1px solid;
+            appearance: none;
+            background: #111;
+            font-size: 9pt;
+            letter-spacing: initial;
+            line-height: 1;
+            vertical-align: middle;
+            padding: 4px;
+            cursor: pointer;
+        }
+            #subs > .icon {
+                color: pink;
+                margin-right: 2px;
+            }
+            #subs > .desc {
+                font-size: 8pt;
+            }
+            .desc {
+                color: #999;
+            }
+        #subs:hover {
+            transform: scale(1.1);
+        }
+main {
+    display: grid;
+    grid-template-areas:
+        "O V V"
+        "S V V";
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto 1fr;
+    gap: 2px;
+}
+    section > .head {
+        padding: 8px;
+        font-size: 9pt;
+        text-align: center;
+        letter-spacing: .1em;
+        color: #9aaffb;
+        background: rgba(0,0,0,.2);
+    }
+    section > .head > i {
+        color: #9aaffb;
+    }
+    #section-owner {
+        grid-area: O;
+    }
+        #section-owner > .body {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+        }
+            #owner-pfp {
+                border-radius: 5px;
+                width: 60px;
+                height: 60px;
+            }
+            #section-owner > .body > .body {
+                padding: 4px;
+            }
+                #section-owner > .body > .body > .desc {
+                    padding: 4px;
+                    font-size: 9pt;
+                }
+    #section-subsing {
+        grid-area: S;
+    }
+    #section-videos {
+        grid-area: V;
+    }
+        #section-videos > .body {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            overflow: visible;
+            margin: 8px;
+        }
+        daldal-video {
+            transition: all 200ms;
+            cursor: pointer;
+        }
+        daldal-video:hover {
+            transform: scale(1.03);
+        }

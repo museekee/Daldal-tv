@@ -20,7 +20,7 @@ const elems = {
 const $data = {
     loadedVideo: 0,
     loadVideoNum: 10
-};
+}
 
 loadVideo()
 async function loadVideo() {
