@@ -26,8 +26,12 @@ app.use(session({
 AuthInit(app)
 app.use(async (req, res, next) => {
     if (req.user) {
-        res.locals.id = req.user.id
-        res.locals.nick = req.user.nick
+        try {
+            const user = await DB.getUserById(req.user.id)
+            res.locals.id = user.ID
+            res.locals.nick = user.NICK   
+        }
+        catch {}
     }
     if (req.originalUrl.includes("assets") || req.originalUrl.includes("/watch/stream") || req.originalUrl === "/favicon.ico") return next()
     NyLog.log(`Connected a page / ip : ${req.ip} / location: ${req.headers.host}${req.originalUrl}`)

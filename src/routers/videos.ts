@@ -55,14 +55,14 @@ router.get("/comment/:vid", async (req, res) => {
         end: end
     })
     const newComments = await Promise.all(comments.map(async (item) => {
-        const user = (await DB.getUserById(item.PROVIDER))[0]
-        if (!user) {
-            item.profilePic = "/assets/images/Anonymous.png"
-            item.nick = "알 수 없음"
+        try {
+            const user = await DB.getUserById(item.PROVIDER)
+            item["profilePic"] = user.PROFILE_PIC
+            item["nick"] = user.NICK
         }
-        else {
-            item.profilePic = user.PROFILE_PIC
-            item.nick = user.NICK
+        catch {
+            item["profilePic"] = "/assets/images/Anonymous.png"
+            item["nick"] = "알 수 없음"
         }
         const Dday = Temporal.PlainDateTime.from(item.TIME.toISOString().substring(0, item.TIME.toISOString().length - 5))
         const today = Temporal.Now.plainDateTimeISO()
@@ -91,9 +91,15 @@ router.get("/recommentvideo", async (req, res) => {
         end: end
     })
     const newVideos = await Promise.all(videos.map(async item => {
-        const user = (await DB.getUserById(item.PROVIDER))[0]
-        item["author"] = user.NICK
-        item["profilepic"] = user.PROFILE_PIC
+        try {
+            const user = await DB.getUserById(item.PROVIDER)
+            item["author"] = user.NICK
+            item["profilepic"] = user.PROFILE_PIC
+        }
+        catch {
+            item["profilePic"] = "/assets/images/Anonymous.png"
+            item["author"] = "알 수 없음"
+        }
         if (item.TYPE === "daldal-tv") item["thumbnailUrl"] = `/videos/getthumbnail/${item.ID}`
         else item["thumbnailUrl"] = (await DB.getOtherVideoTypes(item.TYPE))[0].THUMBNAIL.replace("___ID___", item.ID)
         return item

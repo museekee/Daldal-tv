@@ -14,7 +14,8 @@ export async function getUserById(id: string) {
     const conn = await pool.getConnection()
     const [rows]: [DB.User[], FieldPacket[]] = await conn.query(`SELECT * FROM users WHERE ID = ${conn.escape(id)};`)
     conn.release()
-    return rows
+    if (rows.length === 0) throw new Error("Cannot find user")
+    return rows[0]
 }
 export async function addUserByProfile(profile: {
     id: string

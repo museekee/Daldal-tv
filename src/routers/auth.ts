@@ -14,12 +14,17 @@ export default async function init(app: Express) {
         console.log(profile)
         const authutil = require(path.resolve(__dirname, "..", "lib", "utils", "auth", `${profile.provider}.ts`))
         const data = authutil.getData(profile)
-        if ((await DB.getUserById(`${profile.provider}-${profile.id}`)).length === 0) await DB.addUserByProfile({
-            id: data.id,
-            email: data.email,
-            displayName: data.displayName,
-            picture: data.picture
-        })
+        try {
+            await DB.getUserById(`${profile.provider}-${profile.id}`)
+        }
+        catch {
+            await DB.addUserByProfile({
+                id: data.id,
+                email: data.email,
+                displayName: data.displayName,
+                picture: data.picture
+            })
+        }
         done(null, {
             id: `${profile.provider}-${profile.id}`,
             nick: profile.displayName

@@ -12,7 +12,17 @@ router.get("/:vid", async (req, res) => {
     if (videos.length === 0) return res.status(404).send("없는 동영상입니다.")
     const video = videos[0]
     if (video.VISIBILITY === "private" && video.PROVIDER !== req.user?.id) return res.status(403).send("비공개 동영상입니다.")
-    const provider = (await DB.getUserById(video.PROVIDER))[0]
+    let provider
+    try {
+        provider = await DB.getUserById(video.PROVIDER)
+    }
+    catch {
+        provider = {
+            NICK: "알 수 없음",
+            PROFILE_PIC: "/assets/images/Anonymous.png",
+            SUBSCRIBERS: "알 수 없음"
+        }
+    }
     const senddata = {
         stream: "",
         video: {
@@ -41,10 +51,13 @@ router.get("/:vid", async (req, res) => {
         VIEWS: 1
     })
     if (req.user) {
-        const user = (await DB.getUserById(req.user.id))[0]
-        senddata.my = {
-            picture: user.PROFILE_PIC
+        try {
+            const user = await DB.getUserById(req.user.id)
+            senddata.my = {
+                picture: user.PROFILE_PIC
+            }
         }
+        catch {}
     }
     return res.render("watch", senddata)
 })
