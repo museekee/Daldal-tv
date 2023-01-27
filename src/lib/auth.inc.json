@@ -1,6 +1,17 @@
 {
     "google": {
         "clientID": "clientID",
-        "clientSecret": "clientSecret"
+        "clientSecret": "clientSecret",
+        "callbackURL": "callbackURL"
+    },
+    "daldalso": {
+        "clientID": "clientID",
+        "clientSecret": "clientSecret",
+        "callbackURL": "callbackURL"
+    },
+    "discord": {
+        "clientID": "clientID",
+        "clientSecret": "clientSecret",
+        "callbackURL": "callbackURL"
     }
 }

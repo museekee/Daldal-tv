@@ -11,5 +11,9 @@ export const config = {
 export const strategyConfig = {
     clientID: auth.google.clientID,
     clientSecret: auth.google.clientSecret,
-    callbackURL: auth.google.callbackURL
+    callbackURL: auth.google.callbackURL,
+    scope: [
+        "email",
+        "profile"
+    ]
 }

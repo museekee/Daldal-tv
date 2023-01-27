@@ -4,16 +4,21 @@ import { Express } from "express"
 import path from "path"
 import * as NyLog from "./../lib/NyLog"
 import * as DB from "./../lib/db"
+import https from "https"
 
 export default async function init(app: Express) {
+    https.globalAgent.options.rejectUnauthorized = false;
     app.use(passport.initialize());
     app.use(passport.session());
     passport.serializeUser(async (profile: any, done) => {
+        console.log(profile)
+        const authutil = require(path.resolve(__dirname, "..", "lib", "utils", "auth", `${profile.provider}.ts`))
+        const data = authutil.getData(profile)
         if ((await DB.getUserById(`${profile.provider}-${profile.id}`)).length === 0) await DB.addUserByProfile({
-            id: `${profile.provider}-${profile.id}`,
-            email: profile.email,
-            displayName: profile.displayName,
-            picture: profile.picture
+            id: data.id,
+            email: data.email,
+            displayName: data.displayName,
+            picture: data.picture
         })
         done(null, {
             id: `${profile.provider}-${profile.id}`,
@@ -25,19 +30,18 @@ export default async function init(app: Express) {
         done(null, id);
     })
     const authConfigs: any[] = []
-    for (const obj of Object.entries(config)) {
-        const key = obj[0]
-        const item = obj[1]
+    for (const key in config) {
         try {
             const auth = require(path.resolve(__dirname, "..", "lib", "auth", `auth_${key}.ts`))
-            passport.use(new auth.config.strategy({
-                clientID: auth.strategyConfig.clientID,
-                clientSecret: auth.strategyConfig.clientSecret,
-                callbackURL: auth.strategyConfig.callbackURL
-            },
-            async (accessToken: string, refreshToken: string, profile: any, done: (arg0: null, arg1: any) => any) => {
-                return done(null, profile);
-            }
+            passport.use(new auth.config.strategy(
+                {
+                    clientID: auth.strategyConfig.clientID,
+                    clientSecret: auth.strategyConfig.clientSecret,
+                    callbackURL: auth.strategyConfig.callbackURL,
+                },
+                async (accessToken: string, refreshToken: string, profile: any, done: (arg0: null, arg1: any) => any) => {
+                    return done(null, profile);
+                }
             ))
             authConfigs.push(auth.config)
             app.get("/login", (req, res) => {
@@ -46,16 +50,12 @@ export default async function init(app: Express) {
                     auth: authConfigs
                 })
             })
-            app.get(`/login/${key}`,
-                passport.authenticate(key, { scope: ["email", "profile"] })
-            )
-
-            app.get(`/login/${key}/callback`, 
-                passport.authenticate(key, {
-                    successRedirect: "/",
-                    failureRedirect: "/login",
-                })
-            )
+            
+            app.get(`/login/${auth.config.vendor}`, passport.authenticate(key, { scope: auth.strategyConfig.scope }))
+            app.get(auth.strategyConfig.callbackURL, passport.authenticate(key, {
+                successRedirect: "/",
+                failureRedirect: "/login",
+            }))
             app.get("/logout", (req, res) => {
                 req.logout(() => {
                     res.redirect("/")

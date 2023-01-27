@@ -25,8 +25,10 @@ app.use(session({
 }))
 AuthInit(app)
 app.use(async (req, res, next) => {
-    if (req.user)
+    if (req.user) {
+        res.locals.id = req.user.id
         res.locals.nick = req.user.nick
+    }
     if (req.originalUrl.includes("assets") || req.originalUrl.includes("/watch/stream") || req.originalUrl === "/favicon.ico") return next()
     NyLog.log(`Connected a page / ip : ${req.ip} / location: ${req.headers.host}${req.originalUrl}`)
     next()
@@ -38,6 +40,7 @@ app.use("/assets", express.static(path.join(__dirname, "assets")))
 app.use("/upload", require("./routers/upload"))
 app.use("/watch", require("./routers/watch"))
 app.use("/videos", require("./routers/videos"))
+app.use("/channel", require("./routers/channel"))
 
 app.get('/', async (req, res) => {
     return res.render("main")
