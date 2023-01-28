@@ -80,7 +80,7 @@ body
                     span#uploaded_at=video.uploaded_at
                 #channel
                     img.profilepic(src=provider.picture)
-                    span#channel_name=provider.name
+                    a#channel_name(href=`/channel/${provider.id}`)=provider.name
                     span#channel_subs=`구독자 ${korNumFormatter(provider.subs, 1)}명`
                     button#subscribe 구독
                 #video_function
@@ -103,3 +103,4 @@ body
             #otherVideos.invisibility
     script.
         const vid = `!{video.id}`
+        const cid = `!{provider.id}`

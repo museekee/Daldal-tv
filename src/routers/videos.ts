@@ -123,4 +123,16 @@ router.get("/:uid", async (req, res) => {
         return item
     })))
 })
+router.post("/:uid/subscribe", async (req, res) => {
+    if (!req.user) return res.sendStatus(403)
+    try {
+        const S = await DB.getUserById(req.user.id) // 주어 (누르는 사람)
+        const IO = await DB.getUserById(req.params.uid) // 간접 목적어 (눌리는 사람)
+        return res.send({ code: await DB.subscribe(S.ID, IO.ID) })
+    }
+    catch (e: any) {
+        NyLog.error(e.message, e.stack)
+        return res.status(500).send({ reason: e.message })
+    }
+})
 export = router

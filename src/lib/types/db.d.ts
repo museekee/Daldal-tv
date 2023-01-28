@@ -8,7 +8,7 @@ declare namespace DB {
         PROFILE_PIC: string?;
         ABOUT_ME: string
         VIDEOS: string
-        SUBSCRIBERS: number
+        SUBSCRIBERS: string
         SUBSCRIBING: string
     }
     interface Videos extends RowDataPacket {
@@ -32,11 +32,16 @@ declare namespace DB {
         TIME: Date
     }
     interface OtherVideos extends RowDataPacket {
-        NAME: string
+        ID: string
         LOCATION: string
         THUMBNAIL: string
         NAME: string
     }
+    interface Dislikes extends RowDataPacket {
+        VID: string
+        UID: string
+    }
+    interface Likes extends Dislikes {}
 }
 
 export = DB

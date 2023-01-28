@@ -35,13 +35,15 @@ router.get("/:vid", async (req, res) => {
             dislikes: video.DISLIKES
         },
         provider: {
+            id: provider.ID,
             name: provider.NICK,
             picture: provider.PROFILE_PIC,
-            subs: provider.SUBSCRIBERS
+            subs: JSON.parse(provider.SUBSCRIBERS).length
         },
         my: {},
         frame: "video"
     }
+    console.log(senddata)
     if (video.TYPE === "daldal-tv") senddata.stream = `/watch/stream/${req.params.vid}`
     else {
         senddata.frame = "iframe"

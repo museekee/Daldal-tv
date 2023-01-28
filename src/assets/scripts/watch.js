@@ -86,7 +86,6 @@ function copy(text) {
     document.body.removeChild($textarea);
 }
 //#endregion
-
 //#region 영상정보
 elems.vidinfo.function.share.addEventListener("click", async () => {
     const a = document.createElement("a")
@@ -166,7 +165,6 @@ async function loadComments() {
     }
 }
 //#endregion
-
 //#region 다른 동영상
 loadVideos()
 async function loadVideos() {
@@ -186,4 +184,22 @@ async function loadVideos() {
         }
     }
 }
+//#endregion
+//#region 구독하기
+elems.vidinfo.channel.subscribe.addEventListener("click", async () => {
+    const res = await fetch(`/videos/${cid}/subscribe`, {
+        method: "POST"
+    })
+    console.log(await res.json())
+    if (res.status === 200) {
+        
+    }
+    else {
+        await swal({
+            icon: "error",
+            title: "구독",
+            text: "구독에 실패했습니다."
+        })
+    }
+})
 //#endregion

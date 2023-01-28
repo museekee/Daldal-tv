@@ -16,7 +16,7 @@ router.get("/:cid", async (req, res) => {
                 nick: user.NICK,
                 pic: user.PROFILE_PIC,
                 about: user.ABOUT_ME,
-                subs: user.SUBSCRIBERS,
+                subs: JSON.parse(user.SUBSCRIBERS).length,
                 subsing: user.SUBSCRIBING,
                 videoLen: (await DB.getVideosById("*", {
                     start: 0,
