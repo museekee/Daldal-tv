@@ -81,8 +81,11 @@ body
                 #channel
                     img.profilepic(src=provider.picture)
                     a#channel_name(href=`/channel/${provider.id}`)=provider.name
-                    span#channel_subs=`구독자 ${korNumFormatter(provider.subs, 1)}명`
-                    button#subscribe 구독
+                    span#channel_subs=`${korNumFormatter(provider.subs, 1)}명 성원중`
+                    if my.subsing
+                        button#subscribe.subsing 성원
+                    else
+                        button#subscribe 성원
                 #video_function
                     button#like
                         i.fas.fa-thumbs-up

@@ -15,7 +15,8 @@ html
                     button#subs
                         span.icon.fa-fw.fas.fa-heart 
                         | #{channel.subs}
-                        label.desc &nbsp;성원중
+                        if (my.subsing)
+                            label.desc &nbsp;성원중
             main
                 section#section-owner
                     .head
@@ -31,7 +32,7 @@ html
                 section#section-subsing
                     .head
                         i.fa-fw.fas.fa-users
-                        |  구독중
+                        |  성원중
                     .body
                 section#section-videos
                     .head

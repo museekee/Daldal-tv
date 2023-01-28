@@ -43,53 +43,51 @@ export async function addUserByProfile(profile: {
 export async function subscribe(subject: string, indirectObject: string) {
     const S = await getUserById(subject)
     const IO = await getUserById(indirectObject)
-    const IOSubscribers = JSON.parse(IO.SUBSCRIBERS)
-    const SSubscribing = JSON.parse(S.SUBSCRIBING)
-    if (IOSubscribers.includes(S.ID)) { //! true시 구독중
-        //! 구독 당했던 채널의 구독자 명단서 삭제
+    if (await isSubscribing(S.ID, IO.ID)) { //! 구독중일 때
         const conn = await pool.getConnection()
         await conn.query(`
-            UPDATE users
-            SET
-                SUBSCRIBERS = ${conn.escape(JSON.stringify(IOSubscribers.filter((element: string) => element !== S.ID)))}
+            DELETE FROM subscribes
             WHERE
-                ID = ${conn.escape(IO.ID)}
-        `)
-        //! 구독 한 사람의 구독 목록서 삭제
-        await conn.query(`
-            UPDATE users
-            SET
-                SUBSCRIBING = ${conn.escape(JSON.stringify(SSubscribing.filter((element: string) => element !== IO.ID)))}
-            WHERE
-                ID = ${conn.escape(S.ID)}
+                TARGET = ${conn.escape(IO.ID)} AND
+                SUBSCRIBER = ${conn.escape(S.ID)};
         `)
         conn.release()
         return 0
     }
-    else { //! false니 구독 안 한 상태
+    else { //! 구독 안했을 때
         const conn = await pool.getConnection()
-        IOSubscribers.push(S.ID)
-        console.log(IOSubscribers)
-        //! 구독 당하는 사람의 구독자 명단에 추가
         await conn.query(`
-            UPDATE users
-            SET
-                SUBSCRIBERS = ${conn.escape(JSON.stringify(IOSubscribers))}
-            WHERE
-                ID = ${conn.escape(IO.ID)}
-        `)
-        //! 구독 할 사람의 구독 목록에 추가
-        SSubscribing.push(IO.ID)
-        await conn.query(`
-            UPDATE users
-            SET
-                SUBSCRIBING = ${conn.escape(JSON.stringify(SSubscribing))}
-            WHERE
-                ID = ${conn.escape(S.ID)}
+            INSERT INTO subscribes
+            (
+                TARGET,
+                SUBSCRIBER
+            )
+            VALUES (
+                ${conn.escape(IO.ID)},
+                ${conn.escape(S.ID)}
+            )
         `)
         conn.release()
         return 1
     }
+}
+export async function getSubscribersById(uid: string) {
+    const conn = await pool.getConnection()
+    const [rows]: [DB.Subscribes[], FieldPacket[]] = await conn.query(`SELECT * FROM subscribes WHERE TARGET = ${conn.escape(uid)};`)
+    conn.release()
+    return rows
+}
+export async function isSubscribing(uid: string, cid: string) {
+    const conn = await pool.getConnection()
+    const [rows]: [DB.Subscribes[], FieldPacket[]] = await conn.query(`
+        SELECT * FROM subscribes 
+        WHERE
+            TARGET = ${conn.escape(cid)} AND 
+            SUBSCRIBER = ${conn.escape(uid)}
+    `)
+    conn.release()
+    if (rows.length === 0) return false
+    else return true
 }
 //#endregion
 // #region Video

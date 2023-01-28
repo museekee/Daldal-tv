@@ -103,6 +103,12 @@ main {
                 font-size: 15px;
                 font-weight: bold;
             }
+            .subsing {
+                background: #555555 !important;
+            }
+            .subsing::after {
+                content: "중";
+            }
         #video_function {
             height: 40px;
         }

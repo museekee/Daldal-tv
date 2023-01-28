@@ -1,5 +1,6 @@
 const elems = {
-    videos: document.getElementById("section-videos").getElementsByClassName("body")[0]
+    videos: document.getElementById("section-videos").getElementsByClassName("body")[0],
+    subscribe: document.getElementById("subs")
 }
 const $data = {
     loadedVideo: 0,
@@ -24,3 +25,26 @@ async function loadVideos() {
         }
     }
 }
+elems.subscribe.addEventListener("click", async () => {
+    const res = await fetch(`/videos/${cid}/subscribe`, {
+        method: "POST"
+    })
+    if (res.status === 200) {
+        const data = await res.json()   
+        if (data.code === 0) {
+            elems.subscribe.innerHTML = `<span class="icon fa-fw fas fa-heart"></span>${parseInt(elems.subscribe.innerText.replace(/[^0-9]/g, ""))-1}`
+
+        }
+        if (data.code === 1) {
+            elems.subscribe.innerHTML = `<span class="icon fa-fw fas fa-heart"></span>${parseInt(elems.subscribe.innerText.replace(/[^0-9]/g, ""))+1}<label class="desc">&nbsp;성원중</label>`
+
+        }
+    }
+    else {
+        await swal({
+            icon: "error",
+            title: "성원",
+            text: "성원에 실패했습니다."
+        })
+    }
+})

@@ -38,7 +38,7 @@ router.get("/:vid", async (req, res) => {
             id: provider.ID,
             name: provider.NICK,
             picture: provider.PROFILE_PIC,
-            subs: JSON.parse(provider.SUBSCRIBERS).length
+            subs: provider.ID ? (await DB.getSubscribersById(provider.ID)).length : "알 수 없음"
         },
         my: {},
         frame: "video"
@@ -56,7 +56,8 @@ router.get("/:vid", async (req, res) => {
         try {
             const user = await DB.getUserById(req.user.id)
             senddata.my = {
-                picture: user.PROFILE_PIC
+                picture: user.PROFILE_PIC,
+                subsing: await DB.isSubscribing(user.ID, provider.ID!)
             }
         }
         catch {}

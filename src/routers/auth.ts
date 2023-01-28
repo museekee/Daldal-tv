@@ -69,7 +69,7 @@ export default async function init(app: Express) {
             NyLog.log(`OAuth Strategy \x1B[1m\x1B[33m${key}\x1B[0m loaded successfully.`)
         }
         catch(e: any) {
-            NyLog.error(`OAuth Strategy ${key} is not loaded`, e.message)
+            NyLog.warn(`OAuth Strategy ${key} is not loaded\n${e.message}`)
         }
     }
 }

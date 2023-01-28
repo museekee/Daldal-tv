@@ -16,7 +16,7 @@ router.get("/:cid", async (req, res) => {
                 nick: user.NICK,
                 pic: user.PROFILE_PIC,
                 about: user.ABOUT_ME,
-                subs: JSON.parse(user.SUBSCRIBERS).length,
+                subs: (await DB.getSubscribersById(user.ID)).length,
                 subsing: user.SUBSCRIBING,
                 videoLen: (await DB.getVideosById("*", {
                     start: 0,
@@ -24,6 +24,9 @@ router.get("/:cid", async (req, res) => {
                     visibility: "public",
                     who: user.ID
                 })).length
+            },
+            my: {
+                subsing: await DB.isSubscribing(req.user!.id, user.ID!)
             }
         })
     }

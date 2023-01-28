@@ -44,10 +44,10 @@ const filepath = path.join(__dirname, "..", "logs", `${date.getFullYear()}-${dat
 })()
 /**
  * 
- * @param { number } type 0: Log / 1: Success / 2: Error / #: Debug
+ * @param { number } type 0: Log / 1: Success / 2: Error / 3: Debug / 4: Warning
  * @param { string | object } text message
  */
-async function CallLog(type: number, text?: string | object) {
+async function CallLog(type: 0|1|2|3|4, text?: string | object) {
     if (type == null) return
     text ??= typeof text
     const message = []
@@ -65,11 +65,14 @@ async function CallLog(type: number, text?: string | object) {
         case 3:
             message.push(`${color.BgCyan} 🦠 Debug`)
             break
+        case 4:
+            message.push(`${color.BgYellow} ⚠ Warning`)
+            break
     }
     message.push(" ")
-    message.push(`${color.Reset} [${new Intl.DateTimeFormat("ko", { dateStyle: 'medium', timeStyle: "medium" }).format(new Date())}] `)
+    message.push(` [${new Intl.DateTimeFormat("ko", { dateStyle: 'medium', timeStyle: "medium" }).format(new Date())}] ${color.Reset} `)
     message.push(`${JSON.stringify(text)}`)
-    console.log(`${message.join("")}${color.Reset}`)
+    console.log(`${message.join("")}`)
     await fs.writeFile(filepath, `${(await fs.readFile(filepath)).toString()}\n${message.join("").replaceAll("\\", "")}`, "utf8")
 }
 export function log(text: string | object) {
@@ -84,4 +87,7 @@ export function error(text: string | object, stack?: string) {
 }
 export function debug(text: string | object) {
     CallLog(3, text)
+}
+export function warn(text: string | object) {
+    CallLog(4, text)
 }

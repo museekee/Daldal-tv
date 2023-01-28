@@ -21,7 +21,8 @@ const elems = {
     vidinfo: {
         main: document.getElementById("video_information"),
         channel: {
-            subscribe: document.getElementById("subscribe")
+            subscribe: document.getElementById("subscribe"),
+            substxt: document.getElementById("channel_subs")
         },
         function: {
             like: document.getElementById("like"),
@@ -190,15 +191,22 @@ elems.vidinfo.channel.subscribe.addEventListener("click", async () => {
     const res = await fetch(`/videos/${cid}/subscribe`, {
         method: "POST"
     })
-    console.log(await res.json())
     if (res.status === 200) {
-        
+        const data = await res.json()   
+        if (data.code === 0) {
+            elems.vidinfo.channel.substxt.innerText = `${parseInt(elems.vidinfo.channel.substxt.innerHTML.replace(/[^0-9]/g, ""))-1}명 성원중`
+            elems.vidinfo.channel.subscribe.setAttribute("class", "")
+        }
+        else if (data.code === 1) {
+            elems.vidinfo.channel.substxt.innerText = `${parseInt(elems.vidinfo.channel.substxt.innerHTML.replace(/[^0-9]/g, ""))+1}명 성원중`
+            elems.vidinfo.channel.subscribe.setAttribute("class", "subsing")
+        }
     }
     else {
         await swal({
             icon: "error",
-            title: "구독",
-            text: "구독에 실패했습니다."
+            title: "성원",
+            text: "성원에 실패했습니다."
         })
     }
 })
