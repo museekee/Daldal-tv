@@ -17,7 +17,16 @@ router.get("/:cid", async (req, res) => {
                 pic: user.PROFILE_PIC,
                 about: user.ABOUT_ME,
                 subs: (await DB.getSubscribersById(user.ID)).length,
-                subsing: user.SUBSCRIBING,
+                subsing: await Promise.all((await DB.getSubscribingsById(user.ID)).map(async item => {
+                    const itemUser = await DB.getUserById(item.TARGET)
+                    const subscribers = await DB.getSubscribersById(itemUser.ID)
+                    return {
+                        id: itemUser.ID,
+                        nick: itemUser.NICK,
+                        profilePic: itemUser.PROFILE_PIC,
+                        subscribers: subscribers.length
+                    }
+                })),
                 videoLen: (await DB.getVideosById("*", {
                     start: 0,
                     end: 99999999999,
@@ -26,11 +35,12 @@ router.get("/:cid", async (req, res) => {
                 })).length
             },
             my: {
-                subsing: await DB.isSubscribing(req.user!.id, user.ID!)
+                subsing: req.user ? await DB.isSubscribing(req.user.id, user.ID!) : false
             }
         })
     }
-    catch {
+    catch(e: any) {
+        NyLog.error(e.stack)
         return res.sendStatus(404)
     }
 })

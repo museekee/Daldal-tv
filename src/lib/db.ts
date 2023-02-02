@@ -73,7 +73,13 @@ export async function subscribe(subject: string, indirectObject: string) {
 }
 export async function getSubscribersById(uid: string) {
     const conn = await pool.getConnection()
-    const [rows]: [DB.Subscribes[], FieldPacket[]] = await conn.query(`SELECT * FROM subscribes WHERE TARGET = ${conn.escape(uid)};`)
+    const [rows]: [DB.Subscribes[], FieldPacket[]] = await conn.query(`SELECT SUBSCRIBER FROM subscribes WHERE TARGET = ${conn.escape(uid)};`)
+    conn.release()
+    return rows
+}
+export async function getSubscribingsById(uid: string) {
+    const conn = await pool.getConnection()
+    const [rows]: [DB.Subscribes[], FieldPacket[]] = await conn.query(`SELECT TARGET FROM subscribes WHERE SUBSCRIBER = ${conn.escape(uid)};`)
     conn.release()
     return rows
 }

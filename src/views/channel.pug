@@ -34,6 +34,14 @@ html
                         i.fa-fw.fas.fa-users
                         |  성원중
                     .body
+                        - for (const item of channel.subsing)
+                            a.item(href=`/channel/${item.id}`)
+                                img(src=item.profilePic)
+                                | &nbsp;
+                                | #{item.nick}
+                                span#subs
+                                    span.icon.fa-fw.fas.fa-heart 
+                                    | #{item.subscribers}
                 section#section-videos
                     .head
                         i.fa-fw.fas.fa-server

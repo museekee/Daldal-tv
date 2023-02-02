@@ -116,6 +116,31 @@ main {
     #section-subsing {
         grid-area: S;
     }
+        #section-subsing > .body {
+            display: grid;
+            margin: 8px;
+            overflow-x: auto;
+        }
+        #section-subsing > .body > .item {
+            display: flex;
+            align-items: center;
+            margin: 2px;
+            border-left: 0 solid rgba(255,255,255,.1);
+            cursor: pointer;
+            transition: all ease 200ms;
+            font-size: 10pt;
+        }
+            #section-subsing > .body > .item > img {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+            }
+            #section-subsing > .body > .item > #subs {
+                margin-left: auto;
+            }
+            #section-subsing > .body > .item > #subs:hover {
+                transform: none;
+            }
     #section-videos {
         grid-area: V;
     }
